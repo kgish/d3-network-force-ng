@@ -1,27 +1,15 @@
-# D3NetworkForceNg
+# D3 Network Force NG
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.9.
+Demo Angular application demonstrating D3 network force diagram.
 
-## Development server
+This demo lets you interactively try various settings and combinations of forces for [d3-force](https://github.com/d3/d3-force).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+It's based on [Mike Bostock's](https://bost.ocks.org/) example code for a [force directed graph](http://bl.ocks.org/mbostock/2675ff61ea5e063ede2b5d63c08020c7).
 
-## Code scaffolding
+## References
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+* [d3](https://d3js.org)
+* [d3 hierarchy](https://d3js.org/d3-hierarchy)
+* [force directed graph](https://observablehq.com/@d3/force-directed-graph/2)
+* [demo](https://gist.github.com/steveharoz/8c3e2524079a8c440df60c1ab72b5d03)
+* [miserables.json](https://gist.githubusercontent.com/steveharoz/8c3e2524079a8c440df60c1ab72b5d03/raw/7c039c6b78eea9c97ce763e5fddbfa47c99661f9/miserables.json)
