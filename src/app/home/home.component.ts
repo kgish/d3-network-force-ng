@@ -1,10 +1,15 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 
 import * as d3 from 'd3';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   templateUrl: './home.component.html',
+  imports: [
+    MatCardModule
+  ],
   styleUrls: [ './home.component.scss' ]
 })
 export class HomeComponent implements OnInit, AfterViewInit {

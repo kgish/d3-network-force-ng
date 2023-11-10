@@ -1,14 +1,13 @@
-html {
-    width: 100%;
-}
+.container {
+  display: flex;
+  gap: 20px;
 
-body {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    font-family: sans-serif;
-    font-size: 75%;
+  .card:first-child {
+    min-width: 20%;
+  }
+  .card:last-child {
+    flex-grow: 1;
+  }
 }
 
 .controls {
