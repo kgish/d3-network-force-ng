@@ -300,8 +300,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   //////////// UI EVENTS ////////////
 
-  private _dragstarted(event: any, d: any) {
-    if (!event.active) {
+  private _dragstarted(d: any) {
+    if (!d3.event.active) {
       if (this.simulation) {
         this.simulation.alphaTarget(0.3).restart();
       }
@@ -310,13 +310,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
     d.fy = d.y;
   }
 
-  private _dragged(event: any, d: any) {
-    d.fx = event.x;
-    d.fy = event.y;
+  private _dragged(d: any) {
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
   }
 
-  private _dragended(event: any, d: any) {
-    if (!event.active) {
+  private _dragended(d: any) {
+    if (!d3.event.active) {
       if (this.simulation) {
         this.simulation.alphaTarget(0.0001);
       }
