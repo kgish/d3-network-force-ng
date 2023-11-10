@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   simulation: d3.Simulation<d3.SimulationNodeDatum, undefined> | undefined = undefined;
 
   // Values for all forces
-  forceProperties = {
+  private forceProperties = {
     center: {
       x: 0.5,
       y: 0.5
@@ -65,11 +65,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Force simulator
-    this.simulation = d3.forceSimulation();
-
     this.svg = d3.select("svg");
-    console.log(this.svg);
     if (this.svg) {
       const node = this.svg.node();
       if (node) {
@@ -78,29 +74,27 @@ export class HomeComponent implements OnInit, AfterViewInit {
           this.height = +node.getBoundingClientRect().height;
         }
       }
-    }
-    // Load the data
-    // @ts-ignore
-    d3.json("./assets/miserables.json", (error, _graph) => {
-      if (error) throw error;
-      this.graph = _graph;
-      console.log(this.graph);
-      this._initializeDisplay();
-      this._initializeSimulation();
-    });
+      // Load the data
+      // @ts-ignore
+      d3.json("./assets/miserables.json", (error, _graph) => {
+        if (error) throw error;
+        this.graph = _graph;
+        this._initializeDisplay();
+        this._initializeSimulation();
+      });
 
-    // Update size-related forces
-    d3.select(window).on("resize", () => {
-      if (this.svg) {
-        const node = this.svg.node();
-        if (node) {
-          this.width = +node.getBoundingClientRect().width;
-          this.height = +node.getBoundingClientRect().height;
+      // Update size-related forces
+      d3.select(window).on("resize", () => {
+        if (this.svg) {
+          const node = this.svg.node();
+          if (node) {
+            this.width = +node.getBoundingClientRect().width;
+            this.height = +node.getBoundingClientRect().height;
+          }
         }
-      }
-      this._updateForces();
-    });
-
+        this._updateForces();
+      });
+    }
   }
 
   // Convenience function to update everything (run after UI input)
@@ -109,64 +103,100 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this._updateDisplay();
   }
 
-  // d3.select('#center_XSliderOutput').text(value);
-  // this.forceProperties.center.x = value;
-  // this._updateAll();
+  center_XSliderOutput(event: any) {
+    const value = +event.target.value;
+    d3.select('#center_XSliderOutput').text(value);
+    this.forceProperties.center.x = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#center_YSliderOutput').text(value);
-  // this.forceProperties.center.y = value;
-  // this._updateAll();
+  center_YSliderOutput(value: any) {
+    d3.select('#center_YSliderOutput').text(value);
+    this.forceProperties.center.y = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#charge_StrengthSliderOutput').text(value);
-  // this.forceProperties.charge.strength = value;
-  // this._updateAll();
+  charge_StrengthSliderOutput(value: any) {
+    d3.select('#charge_StrengthSliderOutput').text(value);
+    this.forceProperties.charge.strength = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#charge_distanceMinSliderOutput').text(value);
-  // this.forceProperties.charge.distanceMin = value;
-  // this._updateAll();
+  charge_distanceMinSliderOutput(value: any) {
+    d3.select('#charge_distanceMinSliderOutput').text(value);
+    this.forceProperties.charge.distanceMin = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#charge_distanceMaxSliderOutput').text(value);
-  // this.forceProperties.charge.distanceMax = value;
-  // this._updateAll();
+  charge_distanceMaxSliderOutput(value: any) {
+    d3.select('#charge_distanceMaxSliderOutput').text(value);
+    this.forceProperties.charge.distanceMax = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#collide_StrengthSliderOutput').text(value);
-  // this.forceProperties.collide.strength = value;
-  // this._updateAll();
+  collide_StrengthSliderOutput(value: any) {
+    d3.select('#collide_StrengthSliderOutput').text(value);
+    this.forceProperties.collide.strength = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#collide_radiusSliderOutput').text(value);
-  // this.forceProperties.collide.radius = value;
-  // this._updateAll();
+  collide_radiusSliderOutput(value: any) {
+    d3.select('#collide_radiusSliderOutput').text(value);
+    this.forceProperties.collide.radius = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#collide_iterationsSliderOutput').text(value);
-  // this.forceProperties.collide.iterations = value;
-  // this._updateAll();
+  collide_iterationsSliderOutput(value: any) {
+    d3.select('#collide_iterationsSliderOutput').text(value);
+    this.forceProperties.collide.iterations = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#forceX_StrengthSliderOutput').text(value);
-  // this.forceProperties.forceX.strength = value;
-  // this._updateAll();
+  forceX_StrengthSliderOutput(value: any) {
+    d3.select('#forceX_StrengthSliderOutput').text(value);
+    this.forceProperties.forceX.strength = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#forceX_XSliderOutput').text(value);
-  // this.forceProperties.forceX.x = value;
-  // this._updateAll();
+  forceX_XSliderOutput(value: any) {
+    d3.select('#forceX_XSliderOutput').text(value);
+    this.forceProperties.forceX.x = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#forceY_StrengthSliderOutput').text(value);
-  // this.forceProperties.forceY.strength = value;
-  // this._updateAll();
+  forceY_StrengthSliderOutput(value: any) {
+    d3.select('#forceY_StrengthSliderOutput').text(value);
+    this.forceProperties.forceY.strength = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#forceY_YSliderOutput').text(value);
-  // this.forceProperties.forceY.y = value;
-  // this._updateAll();
+  forceY_YSliderOutput(value: any) {
+    d3.select('#forceY_YSliderOutput').text(value);
+    this.forceProperties.forceY.y = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#link_DistanceSliderOutput').text(value);
-  // this.forceProperties.link.distance = value;
-  // this._updateAll();
+  link_DistanceSliderOutput(value: any) {
+    d3.select('#link_DistanceSliderOutput').text(value);
+    this.forceProperties.link.distance = +value;
+    this.updateAll();
+  }
 
-  // d3.select('#link_IterationsSliderOutput').text(value);
-  // this.forceProperties.link.iterations = value;
-  // this._updateAll();
+  link_IterationsSliderOutput(value: any) {
+    d3.select('#link_IterationsSliderOutput').text(value);
+    this.forceProperties.link.iterations = +value;
+    this.updateAll();
+  }
 
-    // Set up the simulation and event to update locations after each tick
+  forcePropertyEnable = (name: string, enabled: any) => {
+    // @ts-ignore
+    this.forceProperties[name].enabled = enabled;
+    this.updateAll();
+  }
+
+  // Set up the simulation and event to update locations after each tick
   private _initializeSimulation() {
+    this.simulation = d3.forceSimulation();
     if (this.simulation) {
       this.simulation.nodes(this.graph.nodes);
     }
