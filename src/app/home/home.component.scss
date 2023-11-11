@@ -3,7 +3,8 @@
   gap: 20px;
 
   .card:first-child {
-    min-width: 20%;
+    flex-basis: 250px;
+    //min-width: 20%;
   }
   .card:last-child {
     flex-grow: 1;
@@ -75,8 +76,11 @@
 
 /* SVG styles */
 svg {
-    flex-basis: 100%;
-    min-width: 200px;
+  width: 100%;
+  height: calc(100vh - 180px);
+    //flex-basis: 100%;
+    //min-width: 200px;
+  border: 1px solid green;
 }
 
 .links line {

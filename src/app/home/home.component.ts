@@ -13,20 +13,19 @@ import { MatCardModule } from '@angular/material/card';
   styleUrls: [ './home.component.scss' ]
 })
 export class HomeComponent implements OnInit, AfterViewInit {
+  svg!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
 
-  svg: d3.Selection<SVGGElement, unknown, HTMLElement, any> | undefined = undefined;
-
-  width: number | undefined = undefined;
-  height: number | undefined = undefined;
+  width!: number;
+  height!: number;
 
   // svg objects
-  link: d3.Selection<SVGLineElement, unknown, SVGElement, any> | undefined = undefined;
-  node: d3.Selection<SVGCircleElement, unknown, SVGElement, any> | undefined = undefined;
+  link!: d3.Selection<SVGLineElement, unknown, SVGElement, any>;
+  node!: d3.Selection<SVGCircleElement, unknown, SVGElement, any>;
 
   // the data - an object with nodes and links
-  graph: any | undefined = undefined;
+  graph!: any;
 
-  simulation: d3.Simulation<d3.SimulationNodeDatum, undefined> | undefined = undefined;
+  simulation!: d3.Simulation<d3.SimulationNodeDatum, undefined>;
 
   // Values for all forces
   private forceProperties = {
@@ -72,13 +71,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.svg = d3.select("svg");
     if (this.svg) {
-      const node = this.svg.node();
-      if (node) {
-        if ("getBoundingClientRect" in node) {
-          this.width = +node.getBoundingClientRect().width;
-          this.height = +node.getBoundingClientRect().height;
-        }
-      }
+      this._setWidthAndHeight();
       // Load the data
       // @ts-ignore
       d3.json("./assets/miserables.json", (error, _graph) => {
@@ -87,18 +80,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this._initializeDisplay();
         this._initializeSimulation();
       });
-
-      // Update size-related forces
-      d3.select(window).on("resize", () => {
-        if (this.svg) {
-          const node = this.svg.node();
-          if (node) {
-            this.width = +node.getBoundingClientRect().width;
-            this.height = +node.getBoundingClientRect().height;
-          }
-        }
-        this._updateForces();
-      });
+    } else {
+      console.error(`ngAfterViewInit() cannot get svg!`)
     }
   }
 
@@ -204,26 +187,24 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.simulation = d3.forceSimulation();
     if (this.simulation) {
       this.simulation.nodes(this.graph.nodes);
-    }
-    this._initializeForces();
-    if (this.simulation) {
+      this._initializeForces();
       this.simulation.on("tick", this._ticked);
+    } else {
+      console.error(`_initializeSimulation() cannot get simulation!`)
     }
   }
 
   // Add forces to the simulation
   private _initializeForces() {
     // add forces and associate each with a name
-    if (this.simulation) {
-      this.simulation
-        .force("link", d3.forceLink())
-        .force("charge", d3.forceManyBody())
-        .force("collide", d3.forceCollide())
-        .force("center", d3.forceCenter())
-        .force("forceX", d3.forceX())
-        .force("forceY", d3.forceY());
-      // apply properties to each of the forces
-    }
+    this.simulation
+      .force("link", d3.forceLink())
+      .force("charge", d3.forceManyBody())
+      .force("collide", d3.forceCollide())
+      .force("center", d3.forceCenter())
+      .force("forceX", d3.forceX())
+      .force("forceY", d3.forceY());
+    // apply properties to each of the forces
     this._updateForces();
   }
 
@@ -269,34 +250,54 @@ export class HomeComponent implements OnInit, AfterViewInit {
   //////////// DISPLAY ////////////
 
   private _initializeDisplay() {
-    if (this.svg) {
-      // set the data and properties of link lines
-      this.link = this.svg.append("g")
-        .attr("class", "links")
-        .selectAll("line")
-        .data(this.graph.links)
-        .enter().append("line");
+    // set the data and properties of link lines
+    this.link = this.svg.append("g")
+      .attr("class", "links")
+      .selectAll("line")
+      .data(this.graph.links)
+      .enter().append("line");
 
-      // set the data and properties of node circles
-      this.node = this.svg.append("g")
-        .attr("class", "nodes")
-        .selectAll("circle")
-        .data(this.graph.nodes)
-        .enter().append("circle")
-        .call(d3.drag())
-        .on("start", this._dragstarted)
-        .on("drag", this._dragged)
-        .on("end", this._dragended);
+    // set the data and properties of node circles
+    this.node = this.svg.append("g")
+      .attr("class", "nodes")
+      .selectAll("circle")
+      .data(this.graph.nodes)
+      .enter().append("circle")
+      .call(d3.drag())
+      .on("start", this._dragstarted)
+      .on("drag", this._dragged)
+      .on("end", this._dragended);
 
-      // node tooltip
-      this.node?.append("title").text((d: any) => d.id);
+    // node tooltip
+    this.node?.append("title").text((d: any) => d.id);
 
-      // visualize the graph
-      this._updateDisplay();
+    this._initializeOnWindowResize();
+
+    // visualize the graph
+    this._updateDisplay();
+  }
+
+  private _initializeOnWindowResize = () => d3.select(window).on("resize", () => this._handleWindowOnResize());
+
+  private _handleWindowOnResize() {
+    // Update dimensions and size-related forces
+    this._setWidthAndHeight();
+    this._updateForces();
+  }
+
+  private _setWidthAndHeight() {
+    // Update dimensions (width and height)
+    const node = this.svg.node();
+    if (node) {
+      this.width = +node.getBoundingClientRect().width;
+      this.height = +node.getBoundingClientRect().height;
+      console.log(`_setWidthAndHeight() width='${ this.width }' height='${ this.height }'`)
+    } else {
+      console.error(`_setWidthAndHeight() window resize cannot get node!`)
     }
   }
 
-  // Update the display based on the forces (but not positions)
+// Update the display based on the forces (but not positions)
   private _updateDisplay() {
     if (this.node) {
       this.node
