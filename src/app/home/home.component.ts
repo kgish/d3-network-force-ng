@@ -1,7 +1,10 @@
 import { AfterViewInit, Component } from '@angular/core';
 
-import * as d3 from 'd3';
+// Material
 import { MatCardModule } from '@angular/material/card';
+
+// D3.js
+import * as d3 from 'd3';
 
 @Component({
   selector: 'app-home',
@@ -267,12 +270,9 @@ export class HomeComponent implements AfterViewInit {
       .style('cursor', 'pointer')
       // @ts-ignore
       .call(d3.drag()
-        // .on("start", (event: any, d: any) => this._dragStart(event, d))
-        // .on("drag", (event: any, d: any) => this._dragOngoing(event, d))
-        // .on("end", (event: any, d: any) => this._dragEnd(event, d));
-        .on("start", this._dragStart)
-        .on("drag", this._dragOngoing)
-        .on("end", this._dragEnd)
+        .on("start", (e: any, d: any) => this._dragStart(e, d))
+        .on("drag", (e: any, d: any) => this._dragOngoing(e, d))
+        .on("end", (e: any, d: any) => this._dragEnd(e, d))
       );
 
     // node tooltip
@@ -328,10 +328,8 @@ export class HomeComponent implements AfterViewInit {
 
   //--- UI EVENTS ---//
 
-  // private _dragStart = (event: any, d: any) => {
-  //   if (!event.active) {
-  private _dragStart = (d: any) => {
-    if (!d3.event.active) {
+  private _dragStart = (event: any, d: d3.SimulationNodeDatum) => {
+    if (!event.active) {
       if (this.simulation) {
         this.simulation.alphaTarget(0.3).restart();
       }
@@ -340,19 +338,13 @@ export class HomeComponent implements AfterViewInit {
     d.fy = d.y;
   }
 
-  // private _dragOngoing = (event: any, d: any) => {
-  //   d.fx = event.x;
-  //   d.fy = event.y;
-  // }
-  private _dragOngoing = (d: any) => {
-    d.fx = d3.event.x;
-    d.fy = d3.event.y;
+  private _dragOngoing = (event: any, d: d3.SimulationNodeDatum) => {
+    d.fx = event.x;
+    d.fy = event.y;
   }
 
-  // private _dragEnd = (event: any, d: any) => {
-  //   if (!event.active) {
-  private _dragEnd = (d: any) => {
-    if (!d3.event.active) {
+  private _dragEnd = (event: any, d: d3.SimulationNodeDatum) => {
+    if (!event.active) {
       if (this.simulation) {
         this.simulation.alphaTarget(0.0001);
       }
