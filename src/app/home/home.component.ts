@@ -4,7 +4,21 @@ import { AfterViewInit, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 // D3.js
-import * as d3 from 'd3';
+import {
+  Selection,
+  Simulation,
+  SimulationNodeDatum,
+  drag,
+  forceCenter,
+  forceCollide,
+  forceLink,
+  forceManyBody,
+  forceSimulation,
+  forceX,
+  forceY,
+  json,
+  select,
+} from 'd3';
 
 @Component({
   selector: 'app-home',
@@ -16,19 +30,19 @@ import * as d3 from 'd3';
   styleUrls: [ './home.component.scss' ]
 })
 export class HomeComponent implements AfterViewInit {
-  svg!: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
+  svg!: Selection<SVGGElement, unknown, HTMLElement, any>;
 
   width!: number;
   height!: number;
 
   // svg objects
-  link!: d3.Selection<SVGLineElement, unknown, SVGElement, any>;
-  node!: d3.Selection<SVGCircleElement, unknown, SVGElement, any>;
+  link!: Selection<SVGLineElement, unknown, SVGElement, any>;
+  node!: Selection<SVGCircleElement, unknown, SVGElement, any>;
 
   // the data - an object with nodes and links
   graph!: any;
 
-  simulation!: d3.Simulation<d3.SimulationNodeDatum, undefined>;
+  simulation!: Simulation<SimulationNodeDatum, undefined>;
 
   // Values for all forces
   private forceProperties = {
@@ -85,115 +99,115 @@ export class HomeComponent implements AfterViewInit {
 
   center_XSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#center_XSliderOutput').text(value);
+    select('#center_XSliderOutput').text(value);
     this.forceProperties.center.x = value;
     this.updateAll();
   }
 
   center_YSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#center_YSliderOutput').text(value);
+    select('#center_YSliderOutput').text(value);
     this.forceProperties.center.y = value;
     this.updateAll();
   }
 
   charge_StrengthSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#charge_StrengthSliderOutput').text(value);
+    select('#charge_StrengthSliderOutput').text(value);
     this.forceProperties.charge.strength = +value;
     this.updateAll();
   }
 
   charge_distanceMinSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#charge_distanceMinSliderOutput').text(value);
+    select('#charge_distanceMinSliderOutput').text(value);
     this.forceProperties.charge.distanceMin = +value;
     this.updateAll();
   }
 
   charge_distanceMaxSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#charge_distanceMaxSliderOutput').text(value);
+    select('#charge_distanceMaxSliderOutput').text(value);
     this.forceProperties.charge.distanceMax = +value;
     this.updateAll();
   }
 
   collide_StrengthSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#collide_StrengthSliderOutput').text(value);
+    select('#collide_StrengthSliderOutput').text(value);
     this.forceProperties.collide.strength = +value;
     this.updateAll();
   }
 
   collide_radiusSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#collide_radiusSliderOutput').text(value);
+    select('#collide_radiusSliderOutput').text(value);
     this.forceProperties.collide.radius = +value;
     this.updateAll();
   }
 
   collide_iterationsSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#collide_iterationsSliderOutput').text(value);
+    select('#collide_iterationsSliderOutput').text(value);
     this.forceProperties.collide.iterations = +value;
     this.updateAll();
   }
 
   forceX_StrengthSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#forceX_StrengthSliderOutput').text(value);
+    select('#forceX_StrengthSliderOutput').text(value);
     this.forceProperties.forceX.strength = +value;
     this.updateAll();
   }
 
   forceX_XSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#forceX_XSliderOutput').text(value);
+    select('#forceX_XSliderOutput').text(value);
     this.forceProperties.forceX.x = +value;
     this.updateAll();
   }
 
   forceY_StrengthSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#forceY_StrengthSliderOutput').text(value);
+    select('#forceY_StrengthSliderOutput').text(value);
     this.forceProperties.forceY.strength = +value;
     this.updateAll();
   }
 
   forceY_YSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#forceY_YSliderOutput').text(value);
+    select('#forceY_YSliderOutput').text(value);
     this.forceProperties.forceY.y = +value;
     this.updateAll();
   }
 
   link_DistanceSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#link_DistanceSliderOutput').text(value);
+    select('#link_DistanceSliderOutput').text(value);
     this.forceProperties.link.distance = +value;
     this.updateAll();
   }
 
   link_IterationsSliderOutput = (event: any) => {
     const value = +event.target.value;
-    d3.select('#link_IterationsSliderOutput').text(value);
+    select('#link_IterationsSliderOutput').text(value);
     this.forceProperties.link.iterations = +value;
     this.updateAll();
   }
 
   private _initializeGraph = async () => {
-    this.svg = d3.select("svg");
+    this.svg = select("svg");
     this._setWidthAndHeight();
 
     // Load the data, see: https://github.com/d3/d3/blob/main/CHANGES.md#changes-in-d3-50
-    this.graph = await d3.json("./assets/miserables.json");
+    this.graph = await json("./assets/miserables.json");
     this._initializeDisplay();
     this._initializeSimulation();
   }
 
   // Set up the simulation and event to update locations after each tick
   private _initializeSimulation = () => {
-    this.simulation = d3.forceSimulation();
+    this.simulation = forceSimulation();
     this.simulation.nodes(this.graph.nodes);
     this._initializeForces();
     this.simulation.on("tick", this._ticked);
@@ -203,12 +217,12 @@ export class HomeComponent implements AfterViewInit {
   private _initializeForces = () => {
     // add forces and associate each with a name
     this.simulation
-      .force("link", d3.forceLink())
-      .force("charge", d3.forceManyBody())
-      .force("collide", d3.forceCollide())
-      .force("center", d3.forceCenter())
-      .force("forceX", d3.forceX())
-      .force("forceY", d3.forceY());
+      .force("link", forceLink())
+      .force("charge", forceManyBody())
+      .force("collide", forceCollide())
+      .force("center", forceCenter())
+      .force("forceX", forceX())
+      .force("forceY", forceY());
     // apply properties to each of the forces
     this._updateForces();
   }
@@ -269,7 +283,7 @@ export class HomeComponent implements AfterViewInit {
       .enter().append("circle")
       .style('cursor', 'pointer')
       // @ts-ignore
-      .call(d3.drag()
+      .call(drag()
         .on("start", (e: any, d: any) => this._dragStart(e, d))
         .on("drag", (e: any, d: any) => this._dragOngoing(e, d))
         .on("end", (e: any, d: any) => this._dragEnd(e, d))
@@ -284,7 +298,7 @@ export class HomeComponent implements AfterViewInit {
     this._updateDisplay();
   }
 
-  private _initializeOnWindowResize = () => d3.select(window).on("resize", () => this._handleWindowOnResize());
+  private _initializeOnWindowResize = () => select(window).on("resize", () => this._handleWindowOnResize());
 
   private _handleWindowOnResize = () => {
     // Update dimensions and size-related forces
@@ -323,12 +337,12 @@ export class HomeComponent implements AfterViewInit {
       .attr("cx", (d: any) => d.x)
       .attr("cy", (d: any) => d.y);
 
-    d3.select('#alpha_value').style('flex-basis', (this.simulation.alpha() * 100) + '%');
+    select('#alpha_value').style('flex-basis', (this.simulation.alpha() * 100) + '%');
   }
 
   //--- UI EVENTS ---//
 
-  private _dragStart = (event: any, d: d3.SimulationNodeDatum) => {
+  private _dragStart = (event: any, d: SimulationNodeDatum) => {
     if (!event.active) {
       if (this.simulation) {
         this.simulation.alphaTarget(0.3).restart();
@@ -338,12 +352,12 @@ export class HomeComponent implements AfterViewInit {
     d.fy = d.y;
   }
 
-  private _dragOngoing = (event: any, d: d3.SimulationNodeDatum) => {
+  private _dragOngoing = (event: any, d: SimulationNodeDatum) => {
     d.fx = event.x;
     d.fy = event.y;
   }
 
-  private _dragEnd = (event: any, d: d3.SimulationNodeDatum) => {
+  private _dragEnd = (event: any, d: SimulationNodeDatum) => {
     if (!event.active) {
       if (this.simulation) {
         this.simulation.alphaTarget(0.0001);

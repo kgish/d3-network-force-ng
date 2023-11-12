@@ -4,7 +4,6 @@
 
   .card:first-child {
     flex-basis: 250px;
-    //min-width: 20%;
   }
   .card:last-child {
     flex-grow: 1;
@@ -78,9 +77,7 @@
 svg {
   width: 100%;
   height: calc(100vh - 180px);
-    //flex-basis: 100%;
-    //min-width: 200px;
-  border: 1px solid green;
+  border: 1px dotted lightgray;
 }
 
 .links line {
