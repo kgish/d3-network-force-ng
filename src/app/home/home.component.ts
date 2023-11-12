@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Form, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AfterViewInit, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // Material
 import { MatCardModule } from '@angular/material/card';
@@ -22,6 +22,7 @@ import {
   schemeCategory10,
   select
 } from 'd3';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-home',
@@ -34,7 +35,8 @@ import {
   styleUrls: [ './home.component.scss' ]
 })
 export class HomeComponent implements OnInit, AfterViewInit {
-  private color = scaleOrdinal(schemeCategory10);
+  #color = scaleOrdinal(schemeCategory10);
+  #destroyRef = inject(DestroyRef);
 
   svg!: Selection<SVGGElement, unknown, HTMLElement, any>;
 
@@ -211,42 +213,48 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.form = new FormGroup({
       center: new FormGroup({
         x: new FormControl(0.5),
-        y: new FormControl(0.5),
+        y: new FormControl(0.5)
+      }),
+      charge: new FormGroup({
+        enabled: new FormControl(true),
+        strength: new FormControl(-30),
+        distanceMin: new FormControl(1),
+        distanceMax: new FormControl(2000)
+      }),
+      collide: new FormGroup({
+        enabled: new FormControl(true),
+        strength: new FormControl(0.7),
+        iterations: new FormControl(1),
+        radius: new FormControl(5)
+      }),
+      forceX: new FormGroup({
+        enabled: new FormControl(false),
+        strength: new FormControl(0.1),
+        x: new FormControl(0.5)
+      }),
+      forceY: new FormGroup({
+        enabled: new FormControl(false),
+        strength: new FormControl(0.1),
+        y: new FormControl(0.5)
+      }),
+      link: new FormGroup({
+        enabled: new FormControl(false),
+        distance: new FormControl(30),
+        iterations: new FormControl(1)
       })
     });
-  // private forceProperties = {
-  //     center: {
-  //       x: 0.5,
-  //       y: 0.5
-  //     },
-  //     charge: {
-  //       enabled: true,
-  //       strength: -30,
-  //       distanceMin: 1,
-  //       distanceMax: 2000
-  //     },
-  //     collide: {
-  //       enabled: true,
-  //       strength: 0.7,
-  //       iterations: 1,
-  //       radius: 5
-  //     },
-  //     forceX: {
-  //       enabled: false,
-  //       strength: 0.1,
-  //       x: 0.5
-  //     },
-  //     forceY: {
-  //       enabled: false,
-  //       strength: 0.1,
-  //       y: 0.5
-  //     },
-  //     link: {
-  //       enabled: true,
-  //       distance: 30,
-  //       iterations: 1
-  //     }
-  //   };
+
+    this._initializeFormChanges();
+  }
+
+  private _initializeFormChanges = () => {
+    this.form.valueChanges
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe(value => this._handleFormChange(value))
+  }
+
+  private _handleFormChange = (value: any) => {
+      console.log(`_handleFormChange() value='${JSON.stringify(value)}'`);
   }
 
   private _initializeGraph = async () => {
@@ -336,7 +344,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .data(this.graph.nodes)
 
       .enter().append("circle")
-      .style('fill', (d: any) => this.color(d.group))
+      .style('fill', (d: any) => this.#color(d.group))
       .style('cursor', 'pointer')
       // @ts-ignore
       .call(drag()
