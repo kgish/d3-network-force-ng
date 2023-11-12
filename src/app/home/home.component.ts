@@ -17,7 +17,9 @@ import {
   forceX,
   forceY,
   json,
-  select,
+  scaleOrdinal,
+  schemeCategory10,
+  select
 } from 'd3';
 
 @Component({
@@ -30,6 +32,9 @@ import {
   styleUrls: [ './home.component.scss' ]
 })
 export class HomeComponent implements AfterViewInit {
+  private color = scaleOrdinal(schemeCategory10);
+
+
   svg!: Selection<SVGGElement, unknown, HTMLElement, any>;
 
   width!: number;
@@ -267,7 +272,7 @@ export class HomeComponent implements AfterViewInit {
   //--- DISPLAY ---//
 
   private _initializeDisplay = () => {
-    // set the data and properties of link lines
+    // Set the data and properties of link lines
     this.link = this.svg.append("g")
       .attr("class", "links")
       .attr("stroke", "darkgray")
@@ -275,12 +280,14 @@ export class HomeComponent implements AfterViewInit {
       .data(this.graph.links)
       .enter().append("line");
 
-    // set the data and properties of node circles
+    // Set the data and properties of node circles
     this.node = this.svg.append("g")
       .attr("class", "nodes")
       .selectAll("circle")
       .data(this.graph.nodes)
+
       .enter().append("circle")
+      .style('fill', (d: any) => this.color(d.group))
       .style('cursor', 'pointer')
       // @ts-ignore
       .call(drag()
