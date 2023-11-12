@@ -23,6 +23,7 @@ import {
   select
 } from 'd3';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatSliderModule } from '@angular/material/slider';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +31,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './home.component.html',
   imports: [
     MatCardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSliderModule
   ],
   styleUrls: [ './home.component.scss' ]
 })
@@ -43,11 +45,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
   width!: number;
   height!: number;
 
-  // svg objects
+  // Svg objects
   link!: Selection<SVGLineElement, unknown, SVGElement, any>;
   node!: Selection<SVGCircleElement, unknown, SVGElement, any>;
 
-  // the data - an object with nodes and links
+  // The data - an object with nodes and links
   graph!: any;
 
   simulation!: Simulation<SimulationNodeDatum, undefined>;
@@ -88,6 +90,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
       iterations: 1
     }
   };
+
+  constructor() {
+  }
 
   ngOnInit() {
     this._initializeForm();
@@ -210,7 +215,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   private _initializeForm = () => {
-    this.form = new FormGroup({
+    this.form = new FormGroup<any>({
       center: new FormGroup({
         x: new FormControl(0.5),
         y: new FormControl(0.5)
@@ -353,12 +358,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
         .on("end", (e: any, d: any) => this._dragEnd(e, d))
       );
 
-    // node tooltip
+    // Node tooltip
     this.node.append("title").text((d: any) => d.id);
 
     this._initializeOnWindowResize();
 
-    // visualize the graph
+    // Visualize the graph
     this._updateDisplay();
   }
 
