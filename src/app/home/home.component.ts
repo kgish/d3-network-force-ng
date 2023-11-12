@@ -331,7 +331,6 @@ export class HomeComponent implements AfterViewInit {
   // private _dragStart = (event: any, d: any) => {
   //   if (!event.active) {
   private _dragStart = (d: any) => {
-    console.log('_dragStart()');
     if (!d3.event.active) {
       if (this.simulation) {
         this.simulation.alphaTarget(0.3).restart();
@@ -346,7 +345,6 @@ export class HomeComponent implements AfterViewInit {
   //   d.fy = event.y;
   // }
   private _dragOngoing = (d: any) => {
-    console.log('_dragOngoing()');
     d.fx = d3.event.x;
     d.fy = d3.event.y;
   }
@@ -354,7 +352,6 @@ export class HomeComponent implements AfterViewInit {
   // private _dragEnd = (event: any, d: any) => {
   //   if (!event.active) {
   private _dragEnd = (d: any) => {
-    console.log('_dragEnd()');
     if (!d3.event.active) {
       if (this.simulation) {
         this.simulation.alphaTarget(0.0001);
