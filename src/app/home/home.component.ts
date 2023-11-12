@@ -264,13 +264,16 @@ export class HomeComponent implements AfterViewInit {
       .selectAll("circle")
       .data(this.graph.nodes)
       .enter().append("circle")
-      .call(d3.drag())
-      // .on("start", (event: any, d: any) => this._dragStart(event, d))
-      // .on("drag", (event: any, d: any) => this._dragOngoing(event, d))
-      // .on("end", (event: any, d: any) => this._dragEnd(event, d));
-      .on("start", this._dragStart)
-      .on("drag", this._dragOngoing)
-      .on("end", this._dragEnd);
+      .style('cursor', 'pointer')
+      // @ts-ignore
+      .call(d3.drag()
+        // .on("start", (event: any, d: any) => this._dragStart(event, d))
+        // .on("drag", (event: any, d: any) => this._dragOngoing(event, d))
+        // .on("end", (event: any, d: any) => this._dragEnd(event, d));
+        .on("start", this._dragStart)
+        .on("drag", this._dragOngoing)
+        .on("end", this._dragEnd)
+      );
 
     // node tooltip
     this.node.append("title").text((d: any) => d.id);
