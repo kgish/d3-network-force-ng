@@ -1,4 +1,5 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Form, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // Material
 import { MatCardModule } from '@angular/material/card';
@@ -27,13 +28,13 @@ import {
   standalone: true,
   templateUrl: './home.component.html',
   imports: [
-    MatCardModule
+    MatCardModule,
+    ReactiveFormsModule
   ],
   styleUrls: [ './home.component.scss' ]
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   private color = scaleOrdinal(schemeCategory10);
-
 
   svg!: Selection<SVGGElement, unknown, HTMLElement, any>;
 
@@ -48,6 +49,8 @@ export class HomeComponent implements AfterViewInit {
   graph!: any;
 
   simulation!: Simulation<SimulationNodeDatum, undefined>;
+
+  form!: FormGroup;
 
   // Values for all forces
   private forceProperties = {
@@ -83,6 +86,10 @@ export class HomeComponent implements AfterViewInit {
       iterations: 1
     }
   };
+
+  ngOnInit() {
+    this._initializeForm();
+  }
 
   ngAfterViewInit() {
     setTimeout(async () => await this._initializeGraph(), 0)
@@ -198,6 +205,48 @@ export class HomeComponent implements AfterViewInit {
     select('#link_IterationsSliderOutput').text(value);
     this.forceProperties.link.iterations = +value;
     this.updateAll();
+  }
+
+  private _initializeForm = () => {
+    this.form = new FormGroup({
+      center: new FormGroup({
+        x: new FormControl(0.5),
+        y: new FormControl(0.5),
+      })
+    });
+  // private forceProperties = {
+  //     center: {
+  //       x: 0.5,
+  //       y: 0.5
+  //     },
+  //     charge: {
+  //       enabled: true,
+  //       strength: -30,
+  //       distanceMin: 1,
+  //       distanceMax: 2000
+  //     },
+  //     collide: {
+  //       enabled: true,
+  //       strength: 0.7,
+  //       iterations: 1,
+  //       radius: 5
+  //     },
+  //     forceX: {
+  //       enabled: false,
+  //       strength: 0.1,
+  //       x: 0.5
+  //     },
+  //     forceY: {
+  //       enabled: false,
+  //       strength: 0.1,
+  //       y: 0.5
+  //     },
+  //     link: {
+  //       enabled: true,
+  //       distance: 30,
+  //       iterations: 1
+  //     }
+  //   };
   }
 
   private _initializeGraph = async () => {
