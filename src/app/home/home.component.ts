@@ -1,8 +1,11 @@
 import { AfterViewInit, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime } from 'rxjs';
 
 // Material
 import { MatCardModule } from '@angular/material/card';
+import { MatSliderModule } from '@angular/material/slider';
 
 // D3.js
 import {
@@ -22,8 +25,6 @@ import {
   schemeCategory10,
   select
 } from 'd3';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatSliderModule } from '@angular/material/slider';
 
 @Component({
   selector: 'app-home',
@@ -254,12 +255,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   private _initializeFormChanges = () => {
     this.form.valueChanges
-      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .pipe(
+        debounceTime(200),
+        takeUntilDestroyed(this.#destroyRef),
+      )
       .subscribe(value => this._handleFormChange(value))
   }
 
   private _handleFormChange = (value: any) => {
-      console.log(`_handleFormChange() value='${JSON.stringify(value)}'`);
+    console.log(`_handleFormChange() value='${ JSON.stringify(value) }'`);
   }
 
   private _initializeGraph = async () => {
