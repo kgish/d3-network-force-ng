@@ -99,8 +99,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this._initializeForm();
   }
 
-  ngAfterViewInit() {
-    setTimeout(async () => await this._initializeGraph(), 0)
+  async ngAfterViewInit() {
+    await this._initializeGraph();
   }
 
   // Convenience function to update everything (run after UI input)
