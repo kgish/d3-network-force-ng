@@ -18,15 +18,17 @@
             <p><label>center</label> Shifts the view, so the graph is centered at this location.</p>
             <label>
               x
-              <output id="center_XSliderOutput">.5</output>
-              <input type="range" min="0" max="1" value=".5" step="0.01" (input)="center_XSliderOutput($event)"
+<!--              <output>{{ centerX.value }}</output>-->
+              <output>.5</output>
+              <input type="range" min="0" max="1" value=".5" step="0.01" #centerX (input)="center_XSliderOutput($event)"
                      formControlName="x">
             </label>
 
             <label>
               y
-              <output id="center_YSliderOutput">.5</output>
-              <input type="range" min="0" max="1" value=".5" step="0.01" (input)="center_YSliderOutput($event)"
+              <output>.5</output>
+<!--              <output>{{ centerY.value }}</output>-->
+              <input type="range" min="0" max="1" value=".5" step="0.01" #centerY (input)="center_YSliderOutput($event)"
                      formControlName="y">
             </label>
           </div>

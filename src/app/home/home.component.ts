@@ -119,14 +119,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   center_XSliderOutput = (event: any) => {
     const value = +event.target.value;
-    select('#center_XSliderOutput').text(value);
+    // select('#center_XSliderOutput').text(value);
     this.forceProperties.center.x = value;
     this.updateAll();
   }
 
   center_YSliderOutput = (event: any) => {
     const value = +event.target.value;
-    select('#center_YSliderOutput').text(value);
+    // select('#center_YSliderOutput').text(value);
     this.forceProperties.center.y = value;
     this.updateAll();
   }
