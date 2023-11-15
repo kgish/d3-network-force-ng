@@ -96,15 +96,22 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    console.log('ngOnInit()')
     this._initializeForm();
   }
 
-  async ngAfterViewInit() {
-    await this._initializeGraph();
+  ngAfterViewInit() {
+    console.log('ngAfterViewInit()')
+    json("./assets/miserables.json")
+      .then(graph => {
+        this.graph = graph;
+        this._initializeGraph();
+      });
   }
 
   // Convenience function to update everything (run after UI input)
   updateAll() {
+    console.log('updateAll()')
     this._updateForces();
     this._updateDisplay();
   }
@@ -112,40 +119,46 @@ export class HomeComponent implements OnInit, AfterViewInit {
   // --- Event handlers --- //
 
   forcePropertyEnable = (name: string, enabled: any) => {
+    console.log('forcePropertyEnable()')
     // @ts-ignore
     this.forceProperties[name].enabled = enabled;
     this.updateAll();
   }
 
   center_XSliderOutput = (event: any) => {
+    console.log('center_XSliderOutput()')
     const value = +event.target.value;
-    // select('#center_XSliderOutput').text(value);
+    select('#center_XSliderOutput').text(value);
     this.forceProperties.center.x = value;
     this.updateAll();
   }
 
   center_YSliderOutput = (event: any) => {
+    console.log('center_YSliderOutput()')
     const value = +event.target.value;
-    // select('#center_YSliderOutput').text(value);
+    select('#center_YSliderOutput').text(value);
     this.forceProperties.center.y = value;
     this.updateAll();
   }
 
   charge_StrengthSliderOutput = (event: any) => {
+    console.log('charge_StrengthSliderOutput()')
     const value = +event.target.value;
     select('#charge_StrengthSliderOutput').text(value);
     this.forceProperties.charge.strength = +value;
     this.updateAll();
   }
 
-  charge_distanceMinSliderOutput = (event: any) => {
+  charge_DistanceMinSliderOutput = (event: any) => {
+    console.log('charge_DistanceMinSliderOutput()')
     const value = +event.target.value;
     select('#charge_distanceMinSliderOutput').text(value);
     this.forceProperties.charge.distanceMin = +value;
     this.updateAll();
   }
 
-  charge_distanceMaxSliderOutput = (event: any) => {
+  charge_DistanceMaxSliderOutput = (event: any) => {
+    console.log('charge_DistanceMaxSliderOutput()')
     const value = +event.target.value;
     select('#charge_distanceMaxSliderOutput').text(value);
     this.forceProperties.charge.distanceMax = +value;
@@ -153,20 +166,23 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   collide_StrengthSliderOutput = (event: any) => {
+    console.log('collide_StrengthSliderOutput()')
     const value = +event.target.value;
     select('#collide_StrengthSliderOutput').text(value);
     this.forceProperties.collide.strength = +value;
     this.updateAll();
   }
 
-  collide_radiusSliderOutput = (event: any) => {
+  collide_RadiusSliderOutput = (event: any) => {
+    console.log('collide_RadiusSliderOutput()')
     const value = +event.target.value;
     select('#collide_radiusSliderOutput').text(value);
     this.forceProperties.collide.radius = +value;
     this.updateAll();
   }
 
-  collide_iterationsSliderOutput = (event: any) => {
+  collide_IterationsSliderOutput = (event: any) => {
+    console.log('collide_IterationsSliderOutput()')
     const value = +event.target.value;
     select('#collide_iterationsSliderOutput').text(value);
     this.forceProperties.collide.iterations = +value;
@@ -174,6 +190,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   forceX_StrengthSliderOutput = (event: any) => {
+    console.log('forceX_StrengthSliderOutput()')
     const value = +event.target.value;
     select('#forceX_StrengthSliderOutput').text(value);
     this.forceProperties.forceX.strength = +value;
@@ -181,6 +198,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   forceX_XSliderOutput = (event: any) => {
+    console.log('forceX_XSliderOutput()')
     const value = +event.target.value;
     select('#forceX_XSliderOutput').text(value);
     this.forceProperties.forceX.x = +value;
@@ -188,6 +206,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   forceY_StrengthSliderOutput = (event: any) => {
+    console.log('forceY_StrengthSliderOutput()')
     const value = +event.target.value;
     select('#forceY_StrengthSliderOutput').text(value);
     this.forceProperties.forceY.strength = +value;
@@ -195,6 +214,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   forceY_YSliderOutput = (event: any) => {
+    console.log('forceY_YSliderOutput()')
     const value = +event.target.value;
     select('#forceY_YSliderOutput').text(value);
     this.forceProperties.forceY.y = +value;
@@ -202,6 +222,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   link_DistanceSliderOutput = (event: any) => {
+    console.log('link_DistanceSliderOutput()')
     const value = +event.target.value;
     select('#link_DistanceSliderOutput').text(value);
     this.forceProperties.link.distance = +value;
@@ -209,6 +230,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   link_IterationsSliderOutput = (event: any) => {
+    console.log('link_IterationsSliderOutput()')
     const value = +event.target.value;
     select('#link_IterationsSliderOutput').text(value);
     this.forceProperties.link.iterations = +value;
@@ -216,6 +238,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   private _initializeForm = () => {
+    console.log('_initializeForm()')
     this.form = new FormGroup<any>({
       center: new FormGroup({
         x: new FormControl(0.5),
@@ -254,6 +277,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   private _initializeFormChanges = () => {
+    console.log('_initializeFormChanges()')
     this.form.valueChanges
       .pipe(
         debounceTime(200),
@@ -266,18 +290,23 @@ export class HomeComponent implements OnInit, AfterViewInit {
     console.log(`_handleFormChange() value='${ JSON.stringify(value) }'`);
   }
 
-  private _initializeGraph = async () => {
+  private _initializeGraph = () => {
+    console.log('_initializeGraph() 1')
     this.svg = select("svg");
     this._setWidthAndHeight();
 
     // Load the data, see: https://github.com/d3/d3/blob/main/CHANGES.md#changes-in-d3-50
-    this.graph = await json("./assets/miserables.json");
+    console.log('_initializeGraph() 2')
+    console.log('_initializeGraph() 3')
     this._initializeDisplay();
+    console.log('_initializeGraph() 4')
     this._initializeSimulation();
+    console.log('_initializeGraph() 5')
   }
 
   // Set up the simulation and event to update locations after each tick
   private _initializeSimulation = () => {
+    console.log('_initializeSimulation()')
     this.simulation = forceSimulation();
     this.simulation.nodes(this.graph.nodes);
     this._initializeForces();
@@ -286,6 +315,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   // Add forces to the simulation
   private _initializeForces = () => {
+    console.log('_initializeForces()')
     // add forces and associate each with a name
     this.simulation
       .force("link", forceLink())
@@ -300,6 +330,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   // Apply new force properties
   private _updateForces = () => {
+    console.log('_updateForces()')
     // get each force by name and update the properties
     this.simulation.force("center")!
       // @ts-ignore
@@ -338,6 +369,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   //--- DISPLAY ---//
 
   private _initializeDisplay = () => {
+    console.log('_initializeDisplay()')
     // Set the data and properties of link lines
     this.link = this.svg.append("g")
       .attr("class", "links")
@@ -371,15 +403,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this._updateDisplay();
   }
 
-  private _initializeOnWindowResize = () => select(window).on("resize", () => this._handleWindowOnResize());
+  private _initializeOnWindowResize = () => {
+    console.log('_initializeOnWindowResize()')
+    select(window).on("resize", () => this._handleOnWindowResize());
+  }
 
-  private _handleWindowOnResize = () => {
+  private _handleOnWindowResize = () => {
+    console.log('_handleOnWindowResize()')
     // Update dimensions and size-related forces
     this._setWidthAndHeight();
     this._updateForces();
   }
 
   private _setWidthAndHeight = () => {
+    console.log('_setWidthAndHeight()')
     // Update dimensions (width and height)
     const node = this.svg.node();
     this.width = +node!.getBoundingClientRect().width;
@@ -388,6 +425,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   // Update the display based on the forces (but not positions)
   private _updateDisplay = () => {
+    console.log('_updateDisplay()')
     this.node
       .attr("r", this.forceProperties.collide.radius)
       .attr("stroke", this.forceProperties.charge.strength > 0 ? "blue" : "red")

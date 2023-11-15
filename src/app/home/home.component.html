@@ -27,7 +27,7 @@
             <label>
               y
               <output>.5</output>
-<!--              <output>{{ centerY.value }}</output>-->
+              <!--              <output>{{ centerY.value }}</output>-->
               <input type="range" min="0" max="1" value=".5" step="0.01" #centerY (input)="center_YSliderOutput($event)"
                      formControlName="y">
             </label>
@@ -46,14 +46,14 @@
             <label title="Minimum distance where force is applied">
               distanceMin
               <output id="charge_distanceMinSliderOutput">1</output>
-              <input type="range" min="0" max="50" value="1" step=".1" (input)="charge_distanceMinSliderOutput($event)"
+              <input type="range" min="0" max="50" value="1" step=".1" (input)="charge_DistanceMinSliderOutput($event)"
                      formControlName="distanceMin">
             </label>
             <label title="Maximum distance where force is applied">
               distanceMax
               <output id="charge_distanceMaxSliderOutput">2000</output>
               <input type="range" min="0" max="2000" value="2000" step=".1"
-                     (input)="charge_distanceMaxSliderOutput($event)" formControlName="distanceMax">
+                     (input)="charge_DistanceMaxSliderOutput($event)" formControlName="distanceMax">
             </label>
           </div>
 
@@ -70,14 +70,14 @@
             <label title="Size of nodes">
               radius
               <output id="collide_radiusSliderOutput">5</output>
-              <input type="range" min="0" max="100" value="5" step="1" (input)="collide_radiusSliderOutput($event)"
+              <input type="range" min="0" max="100" value="5" step="1" (input)="collide_RadiusSliderOutput($event)"
                      formControlName="iterations">
             </label>
             <label
               title="Higher values increase rigidity of the nodes (WARNING: high values are computationally expensive)">
               iterations
               <output id="collide_iterationsSliderOutput">1</output>
-              <input type="range" min="1" max="10" value="1" step="1" (input)="collide_iterationsSliderOutput($event)"
+              <input type="range" min="1" max="10" value="1" step="1" (input)="collide_IterationsSliderOutput($event)"
                      formControlName="radius">
             </label>
           </div>
