@@ -112,129 +112,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   // Convenience function to update everything (run after UI input)
   updateAll() {
     console.log('updateAll()')
-    this._updateForces();
+    this._updateForces(this.form.value);
     this._updateDisplay();
-  }
-
-  // --- Event handlers --- //
-
-  forcePropertyEnable = (name: string, enabled: any) => {
-    console.log('forcePropertyEnable()')
-    // @ts-ignore
-    this.forceProperties[name].enabled = enabled;
-    this.updateAll();
-  }
-
-  center_XSliderOutput = (event: any) => {
-    console.log('center_XSliderOutput()')
-    const value = +event.target.value;
-    select('#center_XSliderOutput').text(value);
-    this.forceProperties.center.x = value;
-    this.updateAll();
-  }
-
-  center_YSliderOutput = (event: any) => {
-    console.log('center_YSliderOutput()')
-    const value = +event.target.value;
-    select('#center_YSliderOutput').text(value);
-    this.forceProperties.center.y = value;
-    this.updateAll();
-  }
-
-  charge_StrengthSliderOutput = (event: any) => {
-    console.log('charge_StrengthSliderOutput()')
-    const value = +event.target.value;
-    select('#charge_StrengthSliderOutput').text(value);
-    this.forceProperties.charge.strength = +value;
-    this.updateAll();
-  }
-
-  charge_DistanceMinSliderOutput = (event: any) => {
-    console.log('charge_DistanceMinSliderOutput()')
-    const value = +event.target.value;
-    select('#charge_distanceMinSliderOutput').text(value);
-    this.forceProperties.charge.distanceMin = +value;
-    this.updateAll();
-  }
-
-  charge_DistanceMaxSliderOutput = (event: any) => {
-    console.log('charge_DistanceMaxSliderOutput()')
-    const value = +event.target.value;
-    select('#charge_distanceMaxSliderOutput').text(value);
-    this.forceProperties.charge.distanceMax = +value;
-    this.updateAll();
-  }
-
-  collide_StrengthSliderOutput = (event: any) => {
-    console.log('collide_StrengthSliderOutput()')
-    const value = +event.target.value;
-    select('#collide_StrengthSliderOutput').text(value);
-    this.forceProperties.collide.strength = +value;
-    this.updateAll();
-  }
-
-  collide_RadiusSliderOutput = (event: any) => {
-    console.log('collide_RadiusSliderOutput()')
-    const value = +event.target.value;
-    select('#collide_radiusSliderOutput').text(value);
-    this.forceProperties.collide.radius = +value;
-    this.updateAll();
-  }
-
-  collide_IterationsSliderOutput = (event: any) => {
-    console.log('collide_IterationsSliderOutput()')
-    const value = +event.target.value;
-    select('#collide_iterationsSliderOutput').text(value);
-    this.forceProperties.collide.iterations = +value;
-    this.updateAll();
-  }
-
-  forceX_StrengthSliderOutput = (event: any) => {
-    console.log('forceX_StrengthSliderOutput()')
-    const value = +event.target.value;
-    select('#forceX_StrengthSliderOutput').text(value);
-    this.forceProperties.forceX.strength = +value;
-    this.updateAll();
-  }
-
-  forceX_XSliderOutput = (event: any) => {
-    console.log('forceX_XSliderOutput()')
-    const value = +event.target.value;
-    select('#forceX_XSliderOutput').text(value);
-    this.forceProperties.forceX.x = +value;
-    this.updateAll();
-  }
-
-  forceY_StrengthSliderOutput = (event: any) => {
-    console.log('forceY_StrengthSliderOutput()')
-    const value = +event.target.value;
-    select('#forceY_StrengthSliderOutput').text(value);
-    this.forceProperties.forceY.strength = +value;
-    this.updateAll();
-  }
-
-  forceY_YSliderOutput = (event: any) => {
-    console.log('forceY_YSliderOutput()')
-    const value = +event.target.value;
-    select('#forceY_YSliderOutput').text(value);
-    this.forceProperties.forceY.y = +value;
-    this.updateAll();
-  }
-
-  link_DistanceSliderOutput = (event: any) => {
-    console.log('link_DistanceSliderOutput()')
-    const value = +event.target.value;
-    select('#link_DistanceSliderOutput').text(value);
-    this.forceProperties.link.distance = +value;
-    this.updateAll();
-  }
-
-  link_IterationsSliderOutput = (event: any) => {
-    console.log('link_IterationsSliderOutput()')
-    const value = +event.target.value;
-    select('#link_IterationsSliderOutput').text(value);
-    this.forceProperties.link.iterations = +value;
-    this.updateAll();
   }
 
   private _initializeForm = () => {
@@ -246,15 +125,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }),
       charge: this.formBuilder.group({
         enabled: true,
-        strength: 30,
+        strength: -30,
         distanceMin: 1,
         distanceMax: 2000
       }),
       collide: this.formBuilder.group({
         enabled: true,
         strength: 0.7,
+        radius: 5,
         iterations: 1,
-        radius: 5
       }),
       forceX: this.formBuilder.group({
         enabled: false,
@@ -267,7 +146,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         y: 0.5
       }),
       link: this.formBuilder.group({
-        enabled: false,
+        enabled: true,
         distance: 30,
         iterations: 1
       })
@@ -288,6 +167,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   private _handleFormChange = (value: any) => {
     console.log(`_handleFormChange() value='${ JSON.stringify(value) }'`);
+    this._updateForces(value);
   }
 
   private _initializeGraph = () => {
@@ -325,44 +205,44 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .force("forceX", forceX())
       .force("forceY", forceY());
     // apply properties to each of the forces
-    this._updateForces();
+    this._updateForces(this.form.value);
   }
 
   // Apply new force properties
-  private _updateForces = () => {
-    console.log('_updateForces()')
+  private _updateForces = (forces: any) => {
+    console.log(`_updateForces() forces='${JSON.stringify(forces)}'`)
     // get each force by name and update the properties
     this.simulation.force("center")!
       // @ts-ignore
-      .x(this.width * this.forceProperties.center.x)
-      .y(this.height * this.forceProperties.center.y);
+      .x(this.width * forces.center.x)
+      .y(this.height * forces.center.y);
     this.simulation.force("charge")!
       // @ts-ignore
-      .strength(this.forceProperties.charge.strength * (this.forceProperties.charge.enabled ? 1 : 0))
-      .distanceMin(this.forceProperties.charge.distanceMin)
-      .distanceMax(this.forceProperties.charge.distanceMax);
+      .strength(forces.charge.strength * (forces.charge.enabled ? 1 : 0))
+      .distanceMin(forces.charge.distanceMin)
+      .distanceMax(forces.charge.distanceMax);
     this.simulation.force("collide")!
       // @ts-ignore
-      .strength(this.forceProperties.collide.strength * (this.forceProperties.collide.enabled ? 1 : 0))
-      .radius(this.forceProperties.collide.radius)
-      .iterations(this.forceProperties.collide.iterations);
+      .strength(forces.collide.strength * (forces.collide.enabled ? 1 : 0))
+      .radius(forces.collide.radius)
+      .iterations(forces.collide.iterations);
     this.simulation.force("forceX")!
       // @ts-ignore
-      .strength(this.forceProperties.forceX.strength * (this.forceProperties.forceX.enabled ? 1 : 0))
-      .x(this.width * this.forceProperties.forceX.x);
+      .strength(forces.forceX.strength * (forces.forceX.enabled ? 1 : 0))
+      .x(this.width * forces.forceX.x);
     this.simulation.force("forceY")!
       // @ts-ignore
-      .strength(this.forceProperties.forceY.strength * (this.forceProperties.forceY.enabled ? 1 : 0))
-      .y(this.height * this.forceProperties.forceY.y);
+      .strength(forces.forceY.strength * (forces.forceY.enabled ? 1 : 0))
+      .y(this.height * forces.forceY.y);
     this.simulation.force("link")!
       // @ts-ignore
       .id(d => d.id)
-      .distance(this.forceProperties.link.distance)
-      .iterations(this.forceProperties.link.iterations)
-      .links(this.forceProperties.link.enabled ? this.graph.links : []);
+      .distance(forces.link.distance)
+      .iterations(forces.link.iterations)
+      .links(forces.link.enabled ? this.graph.links : []);
 
-    // updates ignored until this is run
-    // restarts the simulation (important if simulation has already slowed down)
+    // Updates ignored until this is run
+    // Restarts the simulation (important if simulation has already slowed down)
     this.simulation.alpha(1).restart();
   }
 
@@ -412,7 +292,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     console.log('_handleOnWindowResize()')
     // Update dimensions and size-related forces
     this._setWidthAndHeight();
-    this._updateForces();
+    this._updateForces(this.form.value);
   }
 
   private _setWidthAndHeight = () => {
@@ -451,7 +331,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     select('#alpha_value').style('flex-basis', (this.simulation.alpha() * 100) + '%');
   }
 
-  //--- UI EVENTS ---//
+  //--- DRAG EVENTS ---//
 
   private _dragStart = (event: any, d: SimulationNodeDatum) => {
     if (!event.active) {

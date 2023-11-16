@@ -18,117 +18,104 @@
             <p><label>center</label> Shifts the view, so the graph is centered at this location.</p>
             <label>
               x
-<!--              <output>{{ centerX.value }}</output>-->
-              <output>.5</output>
-              <input type="range" min="0" max="1" value=".5" step="0.01" #centerX (input)="center_XSliderOutput($event)"
-                     formControlName="x">
+              <output>{{ centerX.value }}</output>
+              <input type="range" min="0" max="1" step="0.01" #centerX formControlName="x">
             </label>
-
             <label>
               y
-              <output>.5</output>
-              <!--              <output>{{ centerY.value }}</output>-->
-              <input type="range" min="0" max="1" value=".5" step="0.01" #centerY (input)="center_YSliderOutput($event)"
-                     formControlName="y">
+              <output>{{ centerY.value }}</output>
+              <input type="range" min="0" max="1" step="0.01" #centerY formControlName="y">
             </label>
           </div>
 
           <div class="force" formGroupName="charge">
-            <p><label><input type="checkbox" checked (change)="forcePropertyEnable('charge', $event)"
-                             formControlName="enabled">
+            <p><label><input type="checkbox" checked formControlName="enabled">
               charge</label> Attracts (+) or repels (-) nodes to/from each other.</p>
             <label title="Negative strength repels nodes. Positive strength attracts nodes.">
               strength
-              <output id="charge_StrengthSliderOutput">-30</output>
-              <input type="range" min="-200" max="50" value="-30" step=".1"
-                     (input)="charge_StrengthSliderOutput($event)" formControlName="strength">
+              <output>{{ chargeStrength.value }}</output>
+              <input type="range" min="-200" max="50" step=".1" #chargeStrength formControlName="strength">
             </label>
             <label title="Minimum distance where force is applied">
               distanceMin
-              <output id="charge_distanceMinSliderOutput">1</output>
-              <input type="range" min="0" max="50" value="1" step=".1" (input)="charge_DistanceMinSliderOutput($event)"
-                     formControlName="distanceMin">
+              <output>{{ chargeDistanceMin.value }}</output>
+              <input type="range" min="0" max="50" step=".1" #chargeDistanceMin formControlName="distanceMin">
             </label>
             <label title="Maximum distance where force is applied">
               distanceMax
-              <output id="charge_distanceMaxSliderOutput">2000</output>
-              <input type="range" min="0" max="2000" value="2000" step=".1"
-                     (input)="charge_DistanceMaxSliderOutput($event)" formControlName="distanceMax">
+              <output>{{ chargeDistanceMax.value }}</output>
+              <input type="range" min="0" max="2000" step=".1" #chargeDistanceMax formControlName="distanceMax">
             </label>
           </div>
 
           <div class="force" formGroupName="collide">
-            <p><label><input type="checkbox" checked (change)="forcePropertyEnable('collide', $event)"
-                             formControlName="enabled"> collide</label>
+            <p><label><input type="checkbox" checked formControlName="enabled"> collide</label>
               Prevents nodes from overlapping</p>
             <label>
               strength
-              <output id="collide_StrengthSliderOutput">.7</output>
-              <input type="range" min="0" max="2" value=".7" step=".1" (input)="collide_StrengthSliderOutput($event)"
-                     formControlName="strength">
+              <output>{{ collideStrength.value }}</output>
+              <input type="range" min="0" max="2" step=".1" #collideStrength formControlName="strength">
             </label>
             <label title="Size of nodes">
               radius
-              <output id="collide_radiusSliderOutput">5</output>
-              <input type="range" min="0" max="100" value="5" step="1" (input)="collide_RadiusSliderOutput($event)"
-                     formControlName="iterations">
+              <output>{{ collideRadius.value }}</output>
+              <input type="range" min="0" max="100" step="1" #collideRadius formControlName="radius">
             </label>
             <label
               title="Higher values increase rigidity of the nodes (WARNING: high values are computationally expensive)">
               iterations
-              <output id="collide_iterationsSliderOutput">1</output>
-              <input type="range" min="1" max="10" value="1" step="1" (input)="collide_IterationsSliderOutput($event)"
-                     formControlName="radius">
+              <output>{{ collideIterations.value }}</output>
+              <input type="range" min="1" max="10" step="1" #collideIterations formControlName="iterations">
             </label>
           </div>
 
-          <div class="force">
-            <p><label><input type="checkbox" (change)="forcePropertyEnable('forceX', $event)">
+          <div class="force" formGroupName="forceX">
+            <p><label><input type="checkbox" formControlName="enabled">
               forceX</label>
               Acts like gravity. Pulls all points towards an X location.</p>
             <label>
               strength
-              <output id="forceX_StrengthSliderOutput">.1</output>
-              <input type="range" min="0" max="1" value=".1" step="0.01" (input)="forceX_StrengthSliderOutput($event)">
+              <output>{{ forceXStrength.value }}</output>
+              <input type="range" min="0" max="1" step="0.01" #forceXStrength formControlName="strength">
             </label>
             <label
               title="The X location that the force will push the nodes to (NOTE: This demo multiplies by the svg width)">
               x
-              <output id="forceX_XSliderOutput">.5</output>
-              <input type="range" min="0" max="1" value=".5" step="0.01" (input)="forceX_XSliderOutput($event)">
+              <output>{{ forceXX.value }}</output>
+              <input type="range" min="0" max="1" step="0.01" #forceXX formControlName="x">
             </label>
           </div>
 
-          <div class="force">
-            <p><label><input type="checkbox" (change)="forcePropertyEnable('forceY', $event)">
+          <div class="force" formGroupName="forceY">
+            <p><label><input type="checkbox" formControlName="enabled">
               forceY</label>
               Acts like gravity. Pulls all points towards a Y location.</p>
             <label>
               strength
-              <output id="forceY_StrengthSliderOutput">.1</output>
-              <input type="range" min="0" max="1" value=".1" step="0.01" (input)="forceY_StrengthSliderOutput($event)">
+              <output>{{ forceYStrength.value }}</output>
+              <input type="range" min="0" max="1" step="0.01" #forceYStrength formControlName="strength">
             </label>
             <label
               title="The Y location that the force will push the nodes to (NOTE: This demo multiplies by the svg height)">
               y
-              <output id="forceY_YSliderOutput">.5</output>
-              <input type="range" min="0" max="1" value=".5" step="0.01" (input)="forceY_YSliderOutput($event)">
+              <output>{{ forceYY.value }}</output>
+              <input type="range" min="0" max="1" step="0.01" #forceYY formControlName="y">
             </label>
           </div>
 
-          <div class="force">
-            <p><label><input type="checkbox" checked (change)="forcePropertyEnable('link', $event)">
+          <div class="force" formGroupName="link">
+            <p><label><input type="checkbox" checked formControlName="enabled">
               link</label> Sets link length</p>
             <label title="The force will push/pull nodes to make links this long">
               distance
-              <output id="link_DistanceSliderOutput">30</output>
-              <input type="range" min="0" max="100" value="30" step="1" (input)="link_DistanceSliderOutput($event)">
+              <output>{{ linkDistance.value }}</output>
+              <input type="range" min="0" max="100" step="1" #linkDistance formControlName="distance">
             </label>
             <label
               title="Higher values increase rigidity of the links (WARNING: high values are computationally expensive)">
               iterations
-              <output id="link_IterationsSliderOutput">1</output>
-              <input type="range" min="1" max="10" value="1" step="1" (input)="link_IterationsSliderOutput($event)">
+              <output>{{ linkIterations.value }}</output>
+              <input type="range" min="1" max="10" step="1" #linkIterations formControlName="iterations">
             </label>
           </div>
         </div>
