@@ -99,25 +99,30 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log('ngOnInit()')
     this.graph = this.activatedRoute.snapshot.data['graph'];
+    console.log('ngOnInit() before _initializeForm')
     this._initializeForm();
+    console.log('ngOnInit() after _initializeForm')
   }
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit()')
+    console.log('ngAfterViewInit() before _initializeGraph')
     this._initializeGraph();
+    console.log('ngAfterViewInit() after _initializeGraph')
   }
 
   // Convenience function to update everything (run after UI input)
   updateAll() {
-    console.log('updateAll()')
+    console.log('updateAll() before _updateForces');
     this._updateForces(this.form.value);
+    console.log('updateAll() after _updateForces');
+    console.log('updateAll() before _updateDisplay');
     this._updateDisplay();
+    console.log('updateAll() after _updateDisplay');
   }
 
   private _initializeForm = () => {
-    console.log('_initializeForm()')
+    console.log('_initializeForm() before this.formBuilder');
     this.form = this.formBuilder.group({
       center: this.formBuilder.group({
         x: 0.5,
@@ -151,51 +156,70 @@ export class HomeComponent implements OnInit, AfterViewInit {
         iterations: 1
       })
     });
+    console.log('_initializeForm() after this.formBuilder');
 
+    console.log('_initializeForm() before _initializeFormChanges');
     this._initializeFormChanges();
+    console.log('_initializeForm() after _initializeFormChanges');
   }
 
   private _initializeFormChanges = () => {
-    console.log('_initializeFormChanges()')
+    console.log('_initializeFormChanges() before form.valueChanges')
     this.form.valueChanges
       .pipe(
         debounceTime(200),
         takeUntilDestroyed(this.#destroyRef),
       )
-      .subscribe(value => this._handleFormChange(value))
+      .subscribe(value => {
+        console.log('_initializeFormChanges() before _handleFormChanges')
+        this._handleFormChange(value);
+        console.log('_initializeFormChanges() after _handleFormChanges')
+      })
+    console.log('_initializeFormChanges() after form.valueChanges')
   }
 
   private _handleFormChange = (value: any) => {
-    console.log(`_handleFormChange() value='${ JSON.stringify(value) }'`);
+    console.log('_handleFormChange() before _updateForces');
     this._updateForces(value);
+    console.log('_handleFormChange() after _updateForces');
   }
 
   private _initializeGraph = () => {
-    console.log('_initializeGraph() 1')
+    console.log('_initializeGraph() before select')
     this.svg = select("svg");
+    console.log('_initializeGraph() after select')
+    console.log('_initializeGraph() before _setWidthAndHeight')
     this._setWidthAndHeight();
+    console.log('_initializeGraph() after _setWidthAndHeight')
 
     // Load the data, see: https://github.com/d3/d3/blob/main/CHANGES.md#changes-in-d3-50
-    console.log('_initializeGraph() 2')
-    console.log('_initializeGraph() 3')
+    console.log('_initializeGraph() before _initializeDisplay')
     this._initializeDisplay();
-    console.log('_initializeGraph() 4')
+    console.log('_initializeGraph() after _initializeDisplay')
+    console.log('_initializeGraph() before _initializeSimulation')
     this._initializeSimulation();
-    console.log('_initializeGraph() 5')
+    console.log('_initializeGraph() after _initializeSimulation')
   }
 
   // Set up the simulation and event to update locations after each tick
   private _initializeSimulation = () => {
-    console.log('_initializeSimulation()')
+    console.log('_initializeSimulation() before forceSimulation')
     this.simulation = forceSimulation();
+    console.log('_initializeSimulation() after forceSimulation')
+    console.log('_initializeSimulation() before nodes')
     this.simulation.nodes(this.graph.nodes);
+    console.log('_initializeSimulation() after nodes')
+    console.log('_initializeSimulation() before _initializeForces')
     this._initializeForces();
+    console.log('_initializeSimulation() after _initializeForces')
+    console.log('_initializeSimulation() before simulation.on')
     this.simulation.on("tick", this._ticked);
+    console.log('_initializeSimulation() after simulation.on')
   }
 
   // Add forces to the simulation
   private _initializeForces = () => {
-    console.log('_initializeForces()')
+    console.log('_initializeForces() before simulation.force')
     // add forces and associate each with a name
     this.simulation
       .force("link", forceLink())
@@ -204,13 +228,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .force("center", forceCenter())
       .force("forceX", forceX())
       .force("forceY", forceY());
+    console.log('_initializeForces() after simulation.force')
     // apply properties to each of the forces
+    console.log('_initializeForces() before _updateForces')
     this._updateForces(this.form.value);
+    console.log('_initializeForces() after _updateForces')
   }
 
   // Apply new force properties
   private _updateForces = (forces: any) => {
-    console.log(`_updateForces() forces='${JSON.stringify(forces)}'`)
+    console.log('_updateForces() before simulation.force')
     // get each force by name and update the properties
     this.simulation.force("center")!
       // @ts-ignore
@@ -240,16 +267,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .distance(forces.link.distance)
       .iterations(forces.link.iterations)
       .links(forces.link.enabled ? this.graph.links : []);
+    console.log('_updateForces() after simulation.force')
 
     // Updates ignored until this is run
     // Restarts the simulation (important if simulation has already slowed down)
+    console.log('_updateForces() before simulation.alpha')
     this.simulation.alpha(1).restart();
+    console.log('_updateForces() after simulation.alpha')
   }
 
   //--- DISPLAY ---//
 
   private _initializeDisplay = () => {
-    console.log('_initializeDisplay()')
+    console.log('_initializeDisplay() before link')
     // Set the data and properties of link lines
     this.link = this.svg.append("g")
       .attr("class", "links")
@@ -257,7 +287,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .selectAll("line")
       .data(this.graph.links)
       .enter().append("line");
+    console.log('_initializeDisplay() after link')
 
+    console.log('_initializeDisplay() before node')
     // Set the data and properties of node circles
     this.node = this.svg.append("g")
       .attr("class", "nodes")
@@ -273,62 +305,85 @@ export class HomeComponent implements OnInit, AfterViewInit {
         .on("drag", (e: any, d: any) => this._dragOngoing(e, d))
         .on("end", (e: any, d: any) => this._dragEnd(e, d))
       );
+    console.log('_initializeDisplay() after node')
 
     // Node tooltip
+    console.log('_initializeDisplay() before node.append')
     this.node.append("title").text((d: any) => d.id);
+    console.log('_initializeDisplay() after node.append')
 
+    console.log('_initializeDisplay() before _initializeOnWindowResize')
     this._initializeOnWindowResize();
+    console.log('_initializeDisplay() after _initializeOnWindowResize')
 
     // Visualize the graph
+    console.log('_initializeDisplay() before _updateDisplay')
     this._updateDisplay();
+    console.log('_initializeDisplay() after _updateDisplay')
   }
 
   private _initializeOnWindowResize = () => {
-    console.log('_initializeOnWindowResize()')
+    console.log('_initializeOnWindowResize() before select')
     select(window).on("resize", () => this._handleOnWindowResize());
+    console.log('_initializeOnWindowResize() after select')
   }
 
   private _handleOnWindowResize = () => {
-    console.log('_handleOnWindowResize()')
     // Update dimensions and size-related forces
+    console.log('_handleOnWindowResize() before _setWidthAndHeight')
     this._setWidthAndHeight();
+    console.log('_handleOnWindowResize() after _setWidthAndHeight')
+    console.log('_handleOnWindowResize() before _updateForces')
     this._updateForces(this.form.value);
+    console.log('_handleOnWindowResize() after _updateForces')
   }
 
   private _setWidthAndHeight = () => {
-    console.log('_setWidthAndHeight()')
+    console.log('_setWidthAndHeight() before')
     // Update dimensions (width and height)
     const node = this.svg.node();
     this.width = +node!.getBoundingClientRect().width;
     this.height = +node!.getBoundingClientRect().height;
+    console.log('_setWidthAndHeight() after')
   }
 
   // Update the display based on the forces (but not positions)
   private _updateDisplay = () => {
-    console.log('_updateDisplay()')
+    console.log('_updateDisplay() before node')
     this.node
       .attr("r", this.forceProperties.collide.radius)
       .attr("stroke", this.forceProperties.charge.strength > 0 ? "blue" : "red")
       .attr("stroke-width", this.forceProperties.charge.enabled ? Math.abs(this.forceProperties.charge.strength) / 15 : 0);
+    console.log('_updateDisplay() after node')
 
+    console.log('_updateDisplay() before link')
     this.link
       .attr("stroke-width", this.forceProperties.link.enabled ? 1 : .5)
       .attr("opacity", this.forceProperties.link.enabled ? 1 : 0);
+    console.log('_updateDisplay() after link')
   }
 
+  tcount = 0;
   // Update the display positions after each simulation tick
   private _ticked = () => {
+    const debug = ++this.tcount < 2;
+    debug && console.log('_ticked() before link')
     this.link
       .attr("x1", (d: any) => d.source.x)
       .attr("y1", (d: any) => d.source.y)
       .attr("x2", (d: any) => d.target.x)
       .attr("y2", (d: any) => d.target.y);
+    debug && console.log('_ticked() after link')
 
+    debug && console.log('_ticked() before node')
     this.node
       .attr("cx", (d: any) => d.x)
       .attr("cy", (d: any) => d.y);
+    debug && console.log('_ticked() after node')
 
+    debug && console.log('_ticked() before select')
     select('#alpha_value').style('flex-basis', (this.simulation.alpha() * 100) + '%');
+    debug && console.log('_ticked() after select')
   }
 
   //--- DRAG EVENTS ---//
