@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs';
 
@@ -92,7 +92,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   };
 
-  constructor(private activatedRoute: ActivatedRoute) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute
+  ) {
   }
 
   ngOnInit() {
@@ -236,37 +239,37 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   private _initializeForm = () => {
     console.log('_initializeForm()')
-    this.form = new FormGroup<any>({
-      center: new FormGroup({
-        x: new FormControl(0.5),
-        y: new FormControl(0.5)
+    this.form = this.formBuilder.group({
+      center: this.formBuilder.group({
+        x: 0.5,
+        y: 0.5
       }),
-      charge: new FormGroup({
-        enabled: new FormControl(true),
-        strength: new FormControl(-30),
-        distanceMin: new FormControl(1),
-        distanceMax: new FormControl(2000)
+      charge: this.formBuilder.group({
+        enabled: true,
+        strength: 30,
+        distanceMin: 1,
+        distanceMax: 2000
       }),
-      collide: new FormGroup({
-        enabled: new FormControl(true),
-        strength: new FormControl(0.7),
-        iterations: new FormControl(1),
-        radius: new FormControl(5)
+      collide: this.formBuilder.group({
+        enabled: true,
+        strength: 0.7,
+        iterations: 1,
+        radius: 5
       }),
-      forceX: new FormGroup({
-        enabled: new FormControl(false),
-        strength: new FormControl(0.1),
-        x: new FormControl(0.5)
+      forceX: this.formBuilder.group({
+        enabled: false,
+        strength: 0.1,
+        x: 0.5
       }),
-      forceY: new FormGroup({
-        enabled: new FormControl(false),
-        strength: new FormControl(0.1),
-        y: new FormControl(0.5)
+      forceY: this.formBuilder.group({
+        enabled: false,
+        strength: 0.1,
+        y: 0.5
       }),
-      link: new FormGroup({
-        enabled: new FormControl(false),
-        distance: new FormControl(30),
-        iterations: new FormControl(1)
+      link: this.formBuilder.group({
+        enabled: false,
+        distance: 30,
+        iterations: 1
       })
     });
 
