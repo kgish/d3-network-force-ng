@@ -20,11 +20,11 @@ import {
   forceSimulation,
   forceX,
   forceY,
-  json,
   scaleOrdinal,
   schemeCategory10,
   select
 } from 'd3';
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -92,21 +92,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   };
 
-  constructor() {
+  constructor(private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
     console.log('ngOnInit()')
+    this.graph = this.activatedRoute.snapshot.data['graph'];
     this._initializeForm();
   }
 
   ngAfterViewInit() {
     console.log('ngAfterViewInit()')
-    json("./assets/miserables.json")
-      .then(graph => {
-        this.graph = graph;
-        this._initializeGraph();
-      });
+    this._initializeGraph();
   }
 
   // Convenience function to update everything (run after UI input)
