@@ -17,12 +17,16 @@
             <label>
               x
               <output>{{ this.form.get('center.x')?.getRawValue() }}</output>
-              <input type="range" min="0" max="1" step="0.01" #centerX formControlName="x">
+              <mat-slider min="0" max="1" step="0.01">
+                <input matSliderThumb #centerX formControlName="x">
+              </mat-slider>
             </label>
             <label>
               y
               <output>{{ this.form.get('center.y')?.getRawValue() }}</output>
-              <input type="range" min="0" max="1" step="0.01" #centerY formControlName="y">
+              <mat-slider min="0" max="1" step="0.01">
+                <input matSliderThumb #centerX formControlName="y">
+              </mat-slider>
             </label>
           </div>
 
