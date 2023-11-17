@@ -18,14 +18,14 @@
               x
               <output>{{ this.form.get('center.x')?.getRawValue() }}</output>
               <mat-slider min="0" max="1" step="0.01">
-                <input matSliderThumb #centerX formControlName="x">
+                <input matSliderThumb formControlName="x">
               </mat-slider>
             </label>
             <label>
               y
               <output>{{ this.form.get('center.y')?.getRawValue() }}</output>
               <mat-slider min="0" max="1" step="0.01">
-                <input matSliderThumb #centerX formControlName="y">
+                <input matSliderThumb formControlName="y">
               </mat-slider>
             </label>
           </div>
@@ -36,17 +36,23 @@
             <label title="Negative strength repels nodes. Positive strength attracts nodes.">
               strength
               <output>{{ this.form.get('charge.strength')?.getRawValue() }}</output>
-              <input type="range" min="-200" max="50" step="0.1" #chargeStrength formControlName="strength">
+              <mat-slider min="-200" max="50" step="0.1">
+                <input matSliderThumb formControlName="strength">
+              </mat-slider>
             </label>
             <label title="Minimum distance where force is applied">
               distanceMin
               <output>{{ this.form.get('charge.distanceMin')?.getRawValue() }}</output>
-              <input type="range" min="0" max="50" step="0.1" #chargeDistanceMin formControlName="distanceMin">
+              <mat-slider min="0" max="50" step="0.1">
+                <input matSliderThumb formControlName="distanceMin">
+              </mat-slider>
             </label>
             <label title="Maximum distance where force is applied">
               distanceMax
               <output>{{ this.form.get('charge.distanceMax')?.getRawValue() }}</output>
-              <input type="range" min="0" max="2000" step="0.1" #chargeDistanceMax formControlName="distanceMax">
+              <mat-slider min="0" max="2000" step="0.1">
+                <input matSliderThumb formControlName="distanceMax">
+              </mat-slider>
             </label>
           </div>
 
@@ -56,18 +62,24 @@
             <label>
               strength
               <output>{{ this.form.get('collide.strength')?.getRawValue() }}</output>
-              <input type="range" min="0" max="2" step="0.1" #collideStrength formControlName="strength">
+              <mat-slider min="0" max="2" step="0.1">
+                <input matSliderThumb formControlName="strength">
+              </mat-slider>
             </label>
             <label title="Size of nodes">
               radius
               <output>{{ this.form.get('collide.radius')?.getRawValue() }}</output>
-              <input type="range" min="0" max="100" step="1" #collideRadius formControlName="radius">
+              <mat-slider min="0" max="100" step="1">
+                <input matSliderThumb formControlName="radius">
+              </mat-slider>
             </label>
             <label
               title="Higher values increase rigidity of the nodes (WARNING: high values are computationally expensive)">
               iterations
               <output>{{ this.form.get('collide.iterations')?.getRawValue() }}</output>
-              <input type="range" min="1" max="10" step="1" #collideIterations formControlName="iterations">
+              <mat-slider min="1" max="10" step="1">
+                <input matSliderThumb formControlName="iterations">
+              </mat-slider>
             </label>
           </div>
 
@@ -78,13 +90,17 @@
             <label>
               strength
               <output>{{ this.form.get('forceX.strength')?.getRawValue() }}</output>
-              <input type="range" min="0" max="1" step="0.01" #forceXStrength formControlName="strength">
+              <mat-slider min="0" max="1" step="0.01">
+                <input matSliderThumb formControlName="strength">
+              </mat-slider>
             </label>
             <label
               title="The X location that the force will push the nodes to (NOTE: This demo multiplies by the svg width)">
               x
               <output>{{ this.form.get('forceX.x')?.getRawValue() }}</output>
-              <input type="range" min="0" max="1" step="0.01" #forceXX formControlName="x">
+              <mat-slider min="0" max="1" step="0.01">
+                <input matSliderThumb formControlName="x">
+              </mat-slider>
             </label>
           </div>
 
@@ -95,13 +111,17 @@
             <label>
               strength
               <output>{{ this.form.get('forceY.strength')?.getRawValue() }}</output>
-              <input type="range" min="0" max="1" step="0.01" #forceYStrength formControlName="strength">
+              <mat-slider min="0" max="1" step="0.01">
+                <input matSliderThumb formControlName="strength">
+              </mat-slider>
             </label>
             <label
               title="The Y location that the force will push the nodes to (NOTE: This demo multiplies by the svg height)">
               y
               <output>{{ this.form.get('forceY.y')?.getRawValue() }}</output>
-              <input type="range" min="0" max="1" step="0.01" #forceYY formControlName="y">
+              <mat-slider min="0" max="1" step="0.01">
+                <input matSliderThumb formControlName="y">
+              </mat-slider>
             </label>
           </div>
 
@@ -111,13 +131,17 @@
             <label title="The force will push/pull nodes to make links this long">
               distance
               <output>{{ this.form.get('link.distance')?.getRawValue() }}</output>
-              <input type="range" min="0" max="100" step="1" #linkDistance formControlName="distance">
+              <mat-slider min="0" max="100" step="1">
+                <input matSliderThumb formControlName="distance">
+              </mat-slider>
             </label>
             <label
               title="Higher values increase rigidity of the links (WARNING: high values are computationally expensive)">
               iterations
               <output>{{ this.form.get('link.iterations')?.getRawValue() }}</output>
-              <input type="range" min="1" max="10" step="1" #linkIterations formControlName="iterations">
+              <mat-slider min="1" max="10" step="1">
+                <input matSliderThumb formControlName="iterations">
+              </mat-slider>
             </label>
           </div>
         </div>
