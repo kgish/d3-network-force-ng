@@ -18,13 +18,12 @@
             <p><label>center</label> Shifts the view, so the graph is centered at this location.</p>
             <label>
               x
-<!--              <output>{{ centerX.value }}</output>-->
-                  <output>{{ this.form.get('center.x')?.getRawValue() }}</output>
+              <output>{{ this.form.get('center.x')?.getRawValue() }}</output>
               <input type="range" min="0" max="1" step="0.01" #centerX formControlName="x">
             </label>
             <label>
               y
-<!--              <output>{{ centerY.value }}</output>-->
+              <output>{{ this.form.get('center.y')?.getRawValue() }}</output>
               <input type="range" min="0" max="1" step="0.01" #centerY formControlName="y">
             </label>
           </div>
@@ -34,17 +33,17 @@
               charge</label> Attracts (+) or repels (-) nodes to/from each other.</p>
             <label title="Negative strength repels nodes. Positive strength attracts nodes.">
               strength
-<!--              <output>{{ chargeStrength.value }}</output>-->
+              <output>{{ this.form.get('charge.strength')?.getRawValue() }}</output>
               <input type="range" min="-200" max="50" step=".1" #chargeStrength formControlName="strength">
             </label>
             <label title="Minimum distance where force is applied">
               distanceMin
-<!--              <output>{{ chargeDistanceMin.value }}</output>-->
+              <output>{{ this.form.get('charge.distanceMin')?.getRawValue() }}</output>
               <input type="range" min="0" max="50" step=".1" #chargeDistanceMin formControlName="distanceMin">
             </label>
             <label title="Maximum distance where force is applied">
               distanceMax
-<!--              <output>{{ chargeDistanceMax.value }}</output>-->
+              <output>{{ this.form.get('charge.distanceMax')?.getRawValue() }}</output>
               <input type="range" min="0" max="2000" step=".1" #chargeDistanceMax formControlName="distanceMax">
             </label>
           </div>
@@ -54,18 +53,18 @@
               Prevents nodes from overlapping</p>
             <label>
               strength
-<!--              <output>{{ collideStrength.value }}</output>-->
+              <output>{{ this.form.get('collide.strength')?.getRawValue() }}</output>
               <input type="range" min="0" max="2" step=".1" #collideStrength formControlName="strength">
             </label>
             <label title="Size of nodes">
               radius
-<!--              <output>{{ collideRadius.value }}</output>-->
+              <output>{{ this.form.get('collide.radius')?.getRawValue() }}</output>
               <input type="range" min="0" max="100" step="1" #collideRadius formControlName="radius">
             </label>
             <label
               title="Higher values increase rigidity of the nodes (WARNING: high values are computationally expensive)">
               iterations
-<!--              <output>{{ collideIterations.value }}</output>-->
+              <output>{{ this.form.get('collide.iterations')?.getRawValue() }}</output>
               <input type="range" min="1" max="10" step="1" #collideIterations formControlName="iterations">
             </label>
           </div>
@@ -76,13 +75,13 @@
               Acts like gravity. Pulls all points towards an X location.</p>
             <label>
               strength
-<!--              <output>{{ forceXStrength.value }}</output>-->
+              <output>{{ this.form.get('forceX.strength')?.getRawValue() }}</output>
               <input type="range" min="0" max="1" step="0.01" #forceXStrength formControlName="strength">
             </label>
             <label
               title="The X location that the force will push the nodes to (NOTE: This demo multiplies by the svg width)">
               x
-<!--              <output>{{ forceXX.value }}</output>-->
+              <output>{{ this.form.get('forceX.x')?.getRawValue() }}</output>
               <input type="range" min="0" max="1" step="0.01" #forceXX formControlName="x">
             </label>
           </div>
@@ -93,13 +92,13 @@
               Acts like gravity. Pulls all points towards a Y location.</p>
             <label>
               strength
-<!--              <output>{{ forceYStrength.value }}</output>-->
+              <output>{{ this.form.get('forceY.strength')?.getRawValue() }}</output>
               <input type="range" min="0" max="1" step="0.01" #forceYStrength formControlName="strength">
             </label>
             <label
               title="The Y location that the force will push the nodes to (NOTE: This demo multiplies by the svg height)">
               y
-<!--              <output>{{ forceYY.value }}</output>-->
+              <output>{{ this.form.get('forceY.y')?.getRawValue() }}</output>
               <input type="range" min="0" max="1" step="0.01" #forceYY formControlName="y">
             </label>
           </div>
@@ -109,13 +108,13 @@
               link</label> Sets link length</p>
             <label title="The force will push/pull nodes to make links this long">
               distance
-<!--              <output>{{ linkDistance.value }}</output>-->
+              <output>{{ this.form.get('link.distance')?.getRawValue() }}</output>
               <input type="range" min="0" max="100" step="1" #linkDistance formControlName="distance">
             </label>
             <label
               title="Higher values increase rigidity of the links (WARNING: high values are computationally expensive)">
               iterations
-<!--              <output>{{ linkIterations.value }}</output>-->
+              <output>{{ this.form.get('link.iterations')?.getRawValue() }}</output>
               <input type="range" min="1" max="10" step="1" #linkIterations formControlName="iterations">
             </label>
           </div>
