@@ -2,7 +2,7 @@ import { AfterViewInit, Component, DestroyRef, inject, OnInit } from '@angular/c
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime } from 'rxjs';
+import { debounceTime, fromEvent } from 'rxjs';
 
 // Material
 import { MatCardModule } from '@angular/material/card';
@@ -37,9 +37,12 @@ import {
     MatSliderModule,
     ReactiveFormsModule
   ],
-  styleUrls: ['./home.component.scss']
+  styleUrls: [ './home.component.scss' ]
 })
 export class HomeComponent implements OnInit, AfterViewInit {
+  private readonly destroy: DestroyRef = inject(DestroyRef);
+
+
   #color = scaleOrdinal(schemeCategory10);
   #destroyRef = inject(DestroyRef);
 
@@ -238,9 +241,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   };
 
   private _initializeOnWindowResize = () => {
-    select(window).on('resize', () => {
-      this._handleOnWindowResize();
-    });
+    fromEvent(window, 'resize')
+      .pipe(takeUntilDestroyed(this.destroy))
+      .subscribe(() => this._handleOnWindowResize())
   };
 
   private _handleOnWindowResize = () => {
