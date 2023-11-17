@@ -9,9 +9,7 @@
         <div class="controls">
           <div class="force alpha">
             <p><label>alpha</label> Simulation activity</p>
-            <div class="alpha_bar" (click)="updateAll()">
-              <div id="alpha_value"></div>
-            </div>
+            <mat-progress-bar color="primary" [value]="alpha"></mat-progress-bar>
           </div>
 
           <div class="force" formGroupName="center">
@@ -34,17 +32,17 @@
             <label title="Negative strength repels nodes. Positive strength attracts nodes.">
               strength
               <output>{{ this.form.get('charge.strength')?.getRawValue() }}</output>
-              <input type="range" min="-200" max="50" step=".1" #chargeStrength formControlName="strength">
+              <input type="range" min="-200" max="50" step="0.1" #chargeStrength formControlName="strength">
             </label>
             <label title="Minimum distance where force is applied">
               distanceMin
               <output>{{ this.form.get('charge.distanceMin')?.getRawValue() }}</output>
-              <input type="range" min="0" max="50" step=".1" #chargeDistanceMin formControlName="distanceMin">
+              <input type="range" min="0" max="50" step="0.1" #chargeDistanceMin formControlName="distanceMin">
             </label>
             <label title="Maximum distance where force is applied">
               distanceMax
               <output>{{ this.form.get('charge.distanceMax')?.getRawValue() }}</output>
-              <input type="range" min="0" max="2000" step=".1" #chargeDistanceMax formControlName="distanceMax">
+              <input type="range" min="0" max="2000" step="0.1" #chargeDistanceMax formControlName="distanceMax">
             </label>
           </div>
 
@@ -54,7 +52,7 @@
             <label>
               strength
               <output>{{ this.form.get('collide.strength')?.getRawValue() }}</output>
-              <input type="range" min="0" max="2" step=".1" #collideStrength formControlName="strength">
+              <input type="range" min="0" max="2" step="0.1" #collideStrength formControlName="strength">
             </label>
             <label title="Size of nodes">
               radius
@@ -125,7 +123,7 @@
   <mat-card class="card">
     <mat-card-header>
       <mat-card-title>Chart</mat-card-title>
-      <mat-card-subtitle>This is the dependency graph.</mat-card-subtitle>
+      <mat-card-subtitle>This is the dependency graph based on the control settings.</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <svg></svg>

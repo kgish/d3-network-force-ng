@@ -6,6 +6,7 @@ import { debounceTime } from 'rxjs';
 
 // Material
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatSliderModule } from '@angular/material/slider';
 
 // D3.js
@@ -32,10 +33,11 @@ import {
   templateUrl: './home.component.html',
   imports: [
     MatCardModule,
-    ReactiveFormsModule,
-    MatSliderModule
+    MatProgressBarModule,
+    MatSliderModule,
+    ReactiveFormsModule
   ],
-  styleUrls: [ './home.component.scss' ]
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, AfterViewInit {
   #color = scaleOrdinal(schemeCategory10);
@@ -54,6 +56,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   graph!: any;
 
   simulation!: Simulation<SimulationNodeDatum, undefined>;
+
+  alpha = 100;
 
   form!: FormGroup;
 
@@ -157,8 +161,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
         debounceTime(200),
         takeUntilDestroyed(this.#destroyRef),
       )
-      .subscribe(value => this._handleFormChange(value))
-  }
+      .subscribe(value => this._handleFormChange(value));
+  };
 
   private _handleFormChange = (value: any) => {
     this._updateForces(value);
@@ -254,9 +258,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .style('cursor', 'pointer')
       // @ts-expect-error
       .call(drag()
-        .on('start', (e: any, d: any) => { this._dragStart(e, d); })
-        .on('drag', (e: any, d: any) => { this._dragOngoing(e, d); })
-        .on('end', (e: any, d: any) => { this._dragEnd(e, d); })
+        .on('start', (e: any, d: any) => {
+          this._dragStart(e, d);
+        })
+        .on('drag', (e: any, d: any) => {
+          this._dragOngoing(e, d);
+        })
+        .on('end', (e: any, d: any) => {
+          this._dragEnd(e, d);
+        })
       );
 
     // Node tooltip
@@ -269,7 +279,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   };
 
   private _initializeOnWindowResize = () => {
-    select(window).on('resize', () => { this._handleOnWindowResize(); });
+    select(window).on('resize', () => {
+      this._handleOnWindowResize();
+    });
   };
 
   private _handleOnWindowResize = () => {
@@ -309,7 +321,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .attr('cx', (d: any) => d.x)
       .attr('cy', (d: any) => d.y);
 
-    select('#alpha_value').style('flex-basis', (this.simulation.alpha() * 100) + '%');
+    this.alpha = Math.round(this.simulation.alpha() * 100);
   };
 
   // --- DRAG EVENTS --- //
