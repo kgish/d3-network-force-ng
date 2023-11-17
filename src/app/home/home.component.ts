@@ -167,31 +167,25 @@ export class HomeComponent implements OnInit, AfterViewInit {
   // Apply new force properties
   private _updateForces = (forces: any) => {
     // Get each force by name and update the properties
-    this.simulation.force('center')!
-      // @ts-ignore
+    (this.simulation.force('center') as any)!
       .x(this.width * forces.center.x)
       .y(this.height * forces.center.y);
-    this.simulation.force('charge')!
-      // @ts-ignore
+    (this.simulation.force('charge') as any)!
       .strength(forces.charge.strength * (forces.charge.enabled ? 1 : 0))
       .distanceMin(forces.charge.distanceMin)
       .distanceMax(forces.charge.distanceMax);
-    this.simulation.force('collide')!
-      // @ts-ignore
+    (this.simulation.force('collide') as any)!
       .strength(forces.collide.strength * (forces.collide.enabled ? 1 : 0))
       .radius(forces.collide.radius)
       .iterations(forces.collide.iterations);
-    this.simulation.force('forceX')!
-      // @ts-ignore
+    (this.simulation.force('forceX') as any)!
       .strength(forces.forceX.strength * (forces.forceX.enabled ? 1 : 0))
       .x(this.width * forces.forceX.x);
-    this.simulation.force('forceY')!
-      // @ts-ignore
+    (this.simulation.force('forceY') as any)!
       .strength(forces.forceY.strength * (forces.forceY.enabled ? 1 : 0))
       .y(this.height * forces.forceY.y);
-    this.simulation.force('link')!
-      // @ts-ignore
-      .id(d => d.id)
+    (this.simulation.force('link') as any)!
+      .id((d: any) => d.id)
       .distance(forces.link.distance)
       .iterations(forces.link.iterations)
       .links(forces.link.enabled ? this.graph.links : []);
@@ -222,7 +216,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .style('fill', (d: any) => this.#color(d.group))
       .style('cursor', 'pointer')
       // @ts-ignore
-      .call(drag()
+      .call((drag() as any)
         .on('start', (e: any, d: any) => {
           this._dragStart(e, d);
         })
