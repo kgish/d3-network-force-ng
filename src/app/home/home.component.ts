@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs';
@@ -24,7 +25,6 @@ import {
   schemeCategory10,
   select
 } from 'd3';
-import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -129,7 +129,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         enabled: true,
         strength: 0.7,
         radius: 5,
-        iterations: 1,
+        iterations: 1
       }),
       forceX: this.formBuilder.group({
         enabled: false,
@@ -149,7 +149,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
 
     this._initializeFormChanges();
-  }
+  };
 
   private _initializeFormChanges = () => {
     this.form.valueChanges
@@ -162,66 +162,66 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   private _handleFormChange = (value: any) => {
     this._updateForces(value);
-  }
+  };
 
   private _initializeGraph = () => {
-    this.svg = select("svg");
+    this.svg = select('svg');
     this._setWidthAndHeight();
 
     // Load the data, see: https://github.com/d3/d3/blob/main/CHANGES.md#changes-in-d3-50
     this._initializeDisplay();
     this._initializeSimulation();
-  }
+  };
 
   // Set up the simulation and event to update locations after each tick
   private _initializeSimulation = () => {
     this.simulation = forceSimulation();
     this.simulation.nodes(this.graph.nodes);
     this._initializeForces();
-    this.simulation.on("tick", this._ticked);
-  }
+    this.simulation.on('tick', this._ticked);
+  };
 
   // Add forces to the simulation
   private _initializeForces = () => {
     // add forces and associate each with a name
     this.simulation
-      .force("link", forceLink())
-      .force("charge", forceManyBody())
-      .force("collide", forceCollide())
-      .force("center", forceCenter())
-      .force("forceX", forceX())
-      .force("forceY", forceY());
+      .force('link', forceLink())
+      .force('charge', forceManyBody())
+      .force('collide', forceCollide())
+      .force('center', forceCenter())
+      .force('forceX', forceX())
+      .force('forceY', forceY());
     // apply properties to each of the forces
     this._updateForces(this.form.value);
-  }
+  };
 
   // Apply new force properties
   private _updateForces = (forces: any) => {
     // Get each force by name and update the properties
-    this.simulation.force("center")!
-      // @ts-ignore
+    this.simulation.force('center')!
+      // @ts-expect-error
       .x(this.width * forces.center.x)
       .y(this.height * forces.center.y);
-    this.simulation.force("charge")!
-      // @ts-ignore
+    this.simulation.force('charge')!
+      // @ts-expect-error
       .strength(forces.charge.strength * (forces.charge.enabled ? 1 : 0))
       .distanceMin(forces.charge.distanceMin)
       .distanceMax(forces.charge.distanceMax);
-    this.simulation.force("collide")!
-      // @ts-ignore
+    this.simulation.force('collide')!
+      // @ts-expect-error
       .strength(forces.collide.strength * (forces.collide.enabled ? 1 : 0))
       .radius(forces.collide.radius)
       .iterations(forces.collide.iterations);
-    this.simulation.force("forceX")!
-      // @ts-ignore
+    this.simulation.force('forceX')!
+      // @ts-expect-error
       .strength(forces.forceX.strength * (forces.forceX.enabled ? 1 : 0))
       .x(this.width * forces.forceX.x);
-    this.simulation.force("forceY")!
-      // @ts-ignore
+    this.simulation.force('forceY')!
+      // @ts-expect-error
       .strength(forces.forceY.strength * (forces.forceY.enabled ? 1 : 0))
       .y(this.height * forces.forceY.y);
-    this.simulation.force("link")!
-      // @ts-ignore
+    this.simulation.force('link')!
+      // @ts-expect-error
       .id(d => d.id)
       .distance(forces.link.distance)
       .iterations(forces.link.iterations)
@@ -230,89 +230,89 @@ export class HomeComponent implements OnInit, AfterViewInit {
     // Updates ignored until this is run
     // Restarts the simulation (important if simulation has already slowed down)
     this.simulation.alpha(1).restart();
-  }
+  };
 
-  //--- DISPLAY ---//
+  // --- DISPLAY ---//
 
   private _initializeDisplay = () => {
     // Set the data and properties of link lines
-    this.link = this.svg.append("g")
-      .attr("class", "links")
-      .attr("stroke", "darkgray")
-      .selectAll("line")
+    this.link = this.svg.append('g')
+      .attr('class', 'links')
+      .attr('stroke', 'darkgray')
+      .selectAll('line')
       .data(this.graph.links)
-      .enter().append("line");
+      .enter().append('line');
 
     // Set the data and properties of node circles
-    this.node = this.svg.append("g")
-      .attr("class", "nodes")
-      .selectAll("circle")
+    this.node = this.svg.append('g')
+      .attr('class', 'nodes')
+      .selectAll('circle')
       .data(this.graph.nodes)
 
-      .enter().append("circle")
+      .enter().append('circle')
       .style('fill', (d: any) => this.#color(d.group))
       .style('cursor', 'pointer')
-      // @ts-ignore
+      // @ts-expect-error
       .call(drag()
-        .on("start", (e: any, d: any) => this._dragStart(e, d))
-        .on("drag", (e: any, d: any) => this._dragOngoing(e, d))
-        .on("end", (e: any, d: any) => this._dragEnd(e, d))
+        .on('start', (e: any, d: any) => { this._dragStart(e, d); })
+        .on('drag', (e: any, d: any) => { this._dragOngoing(e, d); })
+        .on('end', (e: any, d: any) => { this._dragEnd(e, d); })
       );
 
     // Node tooltip
-    this.node.append("title").text((d: any) => d.id);
+    this.node.append('title').text((d: any) => d.id);
 
     this._initializeOnWindowResize();
 
     // Visualize the graph
     this._updateDisplay();
-  }
+  };
 
   private _initializeOnWindowResize = () => {
-    select(window).on("resize", () => this._handleOnWindowResize());
-  }
+    select(window).on('resize', () => { this._handleOnWindowResize(); });
+  };
 
   private _handleOnWindowResize = () => {
     // Update dimensions and size-related forces
     this._setWidthAndHeight();
     this._updateForces(this.form.value);
-  }
+  };
 
   private _setWidthAndHeight = () => {
     // Update dimensions (width and height)
     const node = this.svg.node();
     this.width = +node!.getBoundingClientRect().width;
     this.height = +node!.getBoundingClientRect().height;
-  }
+  };
 
   // Update the display based on the forces (but not positions)
   private _updateDisplay = () => {
     this.node
-      .attr("r", this.forceProperties.collide.radius)
-      .attr("stroke", this.forceProperties.charge.strength > 0 ? "blue" : "red")
-      .attr("stroke-width", this.forceProperties.charge.enabled ? Math.abs(this.forceProperties.charge.strength) / 15 : 0);
+      .attr('r', this.forceProperties.collide.radius)
+      .attr('stroke', this.forceProperties.charge.strength > 0 ? 'blue' : 'red')
+      .attr('stroke-width', this.forceProperties.charge.enabled ? Math.abs(this.forceProperties.charge.strength) / 15 : 0);
 
     this.link
-      .attr("stroke-width", this.forceProperties.link.enabled ? 1 : .5)
-      .attr("opacity", this.forceProperties.link.enabled ? 1 : 0);
-  }
+      .attr('stroke-width', this.forceProperties.link.enabled ? 1 : 0.5)
+      .attr('opacity', this.forceProperties.link.enabled ? 1 : 0);
+  };
 
   // Update the display positions after each simulation tick
   private _ticked = () => {
     this.link
-      .attr("x1", (d: any) => d.source.x)
-      .attr("y1", (d: any) => d.source.y)
-      .attr("x2", (d: any) => d.target.x)
-      .attr("y2", (d: any) => d.target.y);
+      .attr('x1', (d: any) => d.source.x)
+      .attr('y1', (d: any) => d.source.y)
+      .attr('x2', (d: any) => d.target.x)
+      .attr('y2', (d: any) => d.target.y);
 
     this.node
-      .attr("cx", (d: any) => d.x)
-      .attr("cy", (d: any) => d.y);
+      .attr('cx', (d: any) => d.x)
+      .attr('cy', (d: any) => d.y);
 
     select('#alpha_value').style('flex-basis', (this.simulation.alpha() * 100) + '%');
-  }
+  };
 
-  //--- DRAG EVENTS ---//
+  // --- DRAG EVENTS --- //
 
   private _dragStart = (event: any, d: SimulationNodeDatum) => {
     if (!event.active) {
@@ -322,12 +322,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
     d.fx = d.x;
     d.fy = d.y;
-  }
+  };
 
   private _dragOngoing = (event: any, d: SimulationNodeDatum) => {
     d.fx = event.x;
     d.fy = event.y;
-  }
+  };
 
   private _dragEnd = (event: any, d: SimulationNodeDatum) => {
     if (!event.active) {
@@ -337,5 +337,5 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
     d.fx = null;
     d.fy = null;
-  }
+  };
 }
