@@ -61,41 +61,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   form!: FormGroup;
 
-  // Values for all forces
-  // private forceProperties = {
-  //   center: {
-  //     x: 0.5,
-  //     y: 0.5
-  //   },
-  //   charge: {
-  //     enabled: true,
-  //     strength: -30,
-  //     distanceMin: 1,
-  //     distanceMax: 2000
-  //   },
-  //   collide: {
-  //     enabled: true,
-  //     strength: 0.7,
-  //     iterations: 1,
-  //     radius: 5
-  //   },
-  //   forceX: {
-  //     enabled: false,
-  //     strength: 0.1,
-  //     x: 0.5
-  //   },
-  //   forceY: {
-  //     enabled: false,
-  //     strength: 0.1,
-  //     y: 0.5
-  //   },
-  //   link: {
-  //     enabled: true,
-  //     distance: 30,
-  //     iterations: 1
-  //   }
-  // };
-
   constructor(
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute
@@ -203,29 +168,29 @@ export class HomeComponent implements OnInit, AfterViewInit {
   private _updateForces = (forces: any) => {
     // Get each force by name and update the properties
     this.simulation.force('center')!
-      // @ts-expect-error
+      // @ts-ignore
       .x(this.width * forces.center.x)
       .y(this.height * forces.center.y);
     this.simulation.force('charge')!
-      // @ts-expect-error
+      // @ts-ignore
       .strength(forces.charge.strength * (forces.charge.enabled ? 1 : 0))
       .distanceMin(forces.charge.distanceMin)
       .distanceMax(forces.charge.distanceMax);
     this.simulation.force('collide')!
-      // @ts-expect-error
+      // @ts-ignore
       .strength(forces.collide.strength * (forces.collide.enabled ? 1 : 0))
       .radius(forces.collide.radius)
       .iterations(forces.collide.iterations);
     this.simulation.force('forceX')!
-      // @ts-expect-error
+      // @ts-ignore
       .strength(forces.forceX.strength * (forces.forceX.enabled ? 1 : 0))
       .x(this.width * forces.forceX.x);
     this.simulation.force('forceY')!
-      // @ts-expect-error
+      // @ts-ignore
       .strength(forces.forceY.strength * (forces.forceY.enabled ? 1 : 0))
       .y(this.height * forces.forceY.y);
     this.simulation.force('link')!
-      // @ts-expect-error
+      // @ts-ignore
       .id(d => d.id)
       .distance(forces.link.distance)
       .iterations(forces.link.iterations)
@@ -256,7 +221,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .enter().append('circle')
       .style('fill', (d: any) => this.#color(d.group))
       .style('cursor', 'pointer')
-      // @ts-expect-error
+      // @ts-ignore
       .call(drag()
         .on('start', (e: any, d: any) => {
           this._dragStart(e, d);
