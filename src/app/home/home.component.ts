@@ -62,39 +62,39 @@ export class HomeComponent implements OnInit, AfterViewInit {
   form!: FormGroup;
 
   // Values for all forces
-  private forceProperties = {
-    center: {
-      x: 0.5,
-      y: 0.5
-    },
-    charge: {
-      enabled: true,
-      strength: -30,
-      distanceMin: 1,
-      distanceMax: 2000
-    },
-    collide: {
-      enabled: true,
-      strength: 0.7,
-      iterations: 1,
-      radius: 5
-    },
-    forceX: {
-      enabled: false,
-      strength: 0.1,
-      x: 0.5
-    },
-    forceY: {
-      enabled: false,
-      strength: 0.1,
-      y: 0.5
-    },
-    link: {
-      enabled: true,
-      distance: 30,
-      iterations: 1
-    }
-  };
+  // private forceProperties = {
+  //   center: {
+  //     x: 0.5,
+  //     y: 0.5
+  //   },
+  //   charge: {
+  //     enabled: true,
+  //     strength: -30,
+  //     distanceMin: 1,
+  //     distanceMax: 2000
+  //   },
+  //   collide: {
+  //     enabled: true,
+  //     strength: 0.7,
+  //     iterations: 1,
+  //     radius: 5
+  //   },
+  //   forceX: {
+  //     enabled: false,
+  //     strength: 0.1,
+  //     x: 0.5
+  //   },
+  //   forceY: {
+  //     enabled: false,
+  //     strength: 0.1,
+  //     y: 0.5
+  //   },
+  //   link: {
+  //     enabled: true,
+  //     distance: 30,
+  //     iterations: 1
+  //   }
+  // };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -299,14 +299,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   // Update the display based on the forces (but not positions)
   private _updateDisplay = () => {
+    const force = this.form.value;
     this.node
-      .attr('r', this.forceProperties.collide.radius)
-      .attr('stroke', this.forceProperties.charge.strength > 0 ? 'blue' : 'red')
-      .attr('stroke-width', this.forceProperties.charge.enabled ? Math.abs(this.forceProperties.charge.strength) / 15 : 0);
+      .attr('r', force.collide.radius)
+      .attr('stroke', force.charge.strength > 0 ? 'blue' : 'red')
+      .attr('stroke-width', force.charge.enabled ? Math.abs(force.charge.strength) / 15 : 0);
 
     this.link
-      .attr('stroke-width', this.forceProperties.link.enabled ? 1 : 0.5)
-      .attr('opacity', this.forceProperties.link.enabled ? 1 : 0);
+      .attr('stroke-width', force.link.enabled ? 1 : 0.5)
+      .attr('opacity', force.link.enabled ? 1 : 0);
   };
 
   // Update the display positions after each simulation tick
