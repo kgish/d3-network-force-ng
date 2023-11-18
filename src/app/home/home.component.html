@@ -8,21 +8,21 @@
       <form [formGroup]="form">
         <div class="controls">
           <div class="force alpha" (click)="updateAll()">
-            <p><label>alpha</label> Simulation activity</p>
+            <p><label> alpha : </label> Simulation activity</p>
             <mat-progress-bar color="primary" [value]="alpha"></mat-progress-bar>
           </div>
 
           <div class="force" formGroupName="center">
-            <p><label>center</label> Shifts the view, so the graph is centered at this location.</p>
+            <p><label> center : </label> Shifts the view, so the graph is centered at this location.</p>
             <label>
-              x
+              x :
               <output>{{ this.form.get('center.x')?.getRawValue() }}</output>
               <mat-slider min="0" max="1" step="0.01">
                 <input matSliderThumb formControlName="x">
               </mat-slider>
             </label>
             <label>
-              y
+              y :
               <output>{{ this.form.get('center.y')?.getRawValue() }}</output>
               <mat-slider min="0" max="1" step="0.01">
                 <input matSliderThumb formControlName="y">
@@ -31,24 +31,24 @@
           </div>
 
           <div class="force" formGroupName="charge">
-            <p><label><input type="checkbox" checked formControlName="enabled">
-              charge</label> Attracts (+) or repels (-) nodes to/from each other.</p>
+            <p><label><input type="checkbox" checked formControlName="enabled"> charge : </label> Attracts (+) or repels
+              (-) nodes to/from each other.</p>
             <label title="Negative strength repels nodes. Positive strength attracts nodes.">
-              strength
+              strength :
               <output>{{ this.form.get('charge.strength')?.getRawValue() }}</output>
               <mat-slider min="-200" max="50" step="0.1">
                 <input matSliderThumb formControlName="strength">
               </mat-slider>
             </label>
             <label title="Minimum distance where force is applied">
-              distanceMin
+              distanceMin :
               <output>{{ this.form.get('charge.distanceMin')?.getRawValue() }}</output>
               <mat-slider min="0" max="50" step="0.1">
                 <input matSliderThumb formControlName="distanceMin">
               </mat-slider>
             </label>
             <label title="Maximum distance where force is applied">
-              distanceMax
+              distanceMax :
               <output>{{ this.form.get('charge.distanceMax')?.getRawValue() }}</output>
               <mat-slider min="0" max="2000" step="0.1">
                 <input matSliderThumb formControlName="distanceMax">
@@ -57,17 +57,17 @@
           </div>
 
           <div class="force" formGroupName="collide">
-            <p><label><input type="checkbox" checked formControlName="enabled"> collide</label>
-              Prevents nodes from overlapping</p>
+            <p><label><input type="checkbox" checked formControlName="enabled"> collide : </label> Prevents nodes from
+              overlapping</p>
             <label>
-              strength
+              strength :
               <output>{{ this.form.get('collide.strength')?.getRawValue() }}</output>
               <mat-slider min="0" max="2" step="0.1">
                 <input matSliderThumb formControlName="strength">
               </mat-slider>
             </label>
             <label title="Size of nodes">
-              radius
+              radius :
               <output>{{ this.form.get('collide.radius')?.getRawValue() }}</output>
               <mat-slider min="0" max="100" step="1">
                 <input matSliderThumb formControlName="radius">
@@ -75,7 +75,7 @@
             </label>
             <label
               title="Higher values increase rigidity of the nodes (WARNING: high values are computationally expensive)">
-              iterations
+              iterations :
               <output>{{ this.form.get('collide.iterations')?.getRawValue() }}</output>
               <mat-slider min="1" max="10" step="1">
                 <input matSliderThumb formControlName="iterations">
@@ -84,11 +84,10 @@
           </div>
 
           <div class="force" formGroupName="forceX">
-            <p><label><input type="checkbox" formControlName="enabled">
-              forceX</label>
-              Acts like gravity. Pulls all points towards an X location.</p>
+            <p><label><input type="checkbox" formControlName="enabled"> forceX : </label> Acts like gravity. Pulls all
+              points towards an X location.</p>
             <label>
-              strength
+              strength :
               <output>{{ this.form.get('forceX.strength')?.getRawValue() }}</output>
               <mat-slider min="0" max="1" step="0.01">
                 <input matSliderThumb formControlName="strength">
@@ -96,7 +95,7 @@
             </label>
             <label
               title="The X location that the force will push the nodes to (NOTE: This demo multiplies by the svg width)">
-              x
+              x :
               <output>{{ this.form.get('forceX.x')?.getRawValue() }}</output>
               <mat-slider min="0" max="1" step="0.01">
                 <input matSliderThumb formControlName="x">
@@ -105,11 +104,10 @@
           </div>
 
           <div class="force" formGroupName="forceY">
-            <p><label><input type="checkbox" formControlName="enabled">
-              forceY</label>
-              Acts like gravity. Pulls all points towards a Y location.</p>
+            <p><label><input type="checkbox" formControlName="enabled"> forceY : </label> Acts like gravity. Pulls all
+              points towards a Y location.</p>
             <label>
-              strength
+              strength :
               <output>{{ this.form.get('forceY.strength')?.getRawValue() }}</output>
               <mat-slider min="0" max="1" step="0.01">
                 <input matSliderThumb formControlName="strength">
@@ -117,7 +115,7 @@
             </label>
             <label
               title="The Y location that the force will push the nodes to (NOTE: This demo multiplies by the svg height)">
-              y
+              y :
               <output>{{ this.form.get('forceY.y')?.getRawValue() }}</output>
               <mat-slider min="0" max="1" step="0.01">
                 <input matSliderThumb formControlName="y">
@@ -126,10 +124,9 @@
           </div>
 
           <div class="force" formGroupName="link">
-            <p><label><input type="checkbox" checked formControlName="enabled">
-              link</label> Sets link length</p>
+            <p><label><input type="checkbox" checked formControlName="enabled"> link : </label> Sets link length</p>
             <label title="The force will push/pull nodes to make links this long">
-              distance
+              distance :
               <output>{{ this.form.get('link.distance')?.getRawValue() }}</output>
               <mat-slider min="0" max="100" step="1">
                 <input matSliderThumb formControlName="distance">
@@ -137,7 +134,7 @@
             </label>
             <label
               title="Higher values increase rigidity of the links (WARNING: high values are computationally expensive)">
-              iterations
+              iterations :
               <output>{{ this.form.get('link.iterations')?.getRawValue() }}</output>
               <mat-slider min="1" max="10" step="1">
                 <input matSliderThumb formControlName="iterations">

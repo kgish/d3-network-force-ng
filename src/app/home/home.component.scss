@@ -3,46 +3,53 @@
   gap: 20px;
 
   .card:first-child {
-    flex-basis: 20%;
+    flex-basis: 400px;
   }
+
   .card:last-child {
     flex-grow: 1;
   }
 }
 
 .controls {
-    flex-basis: 200px;
-    padding: 0 5px;
+  flex-basis: 200px;
+  padding: 0 5px;
 }
 
 .controls .force {
-    background-color: #eee;
-    border-radius: 3px;
-    padding: 5px;
-    margin: 5px 0;
+  background-color: #eee;
+  border-radius: 3px;
+  padding: 5px;
+  margin: 5px 0;
 }
 
 .controls .force p label {
-    margin-right: .5em;
-    font-size: 120%;
-    font-weight: bold;
+  margin-right: .5em;
+  font-size: 120%;
+  font-weight: bold;
 }
 
 .controls .force p {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .controls .force label {
-    display: inline-block;
+  display: inline-block;
+  padding: 5px;
 }
 
 .controls input[type="checkbox"] {
-    transform: scale(1.2, 1.2);
+  transform: scale(1.2, 1.2);
 }
 
 .controls input[type="range"] {
-    margin: 0 5% 0.5em 5%;
-    width: 90%;
+  margin: 0 5% 0.5em 5%;
+  width: 90%;
+}
+
+/* alpha viewer */
+.controls .alpha p {
+    margin-bottom: .25em;
 }
 
 /* SVG styles */
@@ -53,13 +60,14 @@ svg {
 }
 
 .links line {
-    stroke: #aaa;
+  stroke: #aaa;
 }
 
 .nodes circle {
-    pointer-events: all;
+  pointer-events: all;
 }
 
 mat-slider {
-  width: 100%;
+  //width: 50%;
+  margin-left: 30px;
 }
