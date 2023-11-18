@@ -135,11 +135,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         debounceTime(200),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe(value => this._handleFormChange(value));
-  };
-
-  private _handleFormChange = (value: any) => {
-    this._updateForces(value);
+      .subscribe(() => this.updateAll());
   };
 
   private _initializeGraph = () => {
@@ -254,7 +250,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   private _handleOnWindowResize = () => {
     // Update dimensions and size-related forces
     this._setWidthAndHeight();
-    this._updateForces(this.form.value);
+    this.updateAll();
   };
 
   private _setWidthAndHeight = () => {
