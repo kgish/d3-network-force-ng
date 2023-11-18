@@ -2,6 +2,8 @@
 
 Demo Angular v17 application demonstrating D3 network force diagram.
 
+![Screenshot](src/assets/images/screenshot.png)
+
 ## Summary
 
 This demo lets you interactively try various settings and combinations of forces for [d3-force](https://github.com/d3/d3-force).

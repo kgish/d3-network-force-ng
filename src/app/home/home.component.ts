@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -39,12 +39,9 @@ import {
   ],
   styleUrls: [ './home.component.scss' ]
 })
-export class HomeComponent implements OnInit, AfterViewInit {
-  private readonly destroy: DestroyRef = inject(DestroyRef);
-
-
-  #color = scaleOrdinal(schemeCategory10);
-  #destroyRef = inject(DestroyRef);
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
+  private readonly color = scaleOrdinal(schemeCategory10);
+  private readonly destroyRef = inject(DestroyRef);
 
   svg!: Selection<SVGGElement, unknown, HTMLElement, any>;
 
@@ -77,6 +74,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this._initializeGraph();
+  }
+
+  ngOnDestroy() {
+    // Don't forget to unsubscribe from the d3 event handlers.
+    this.simulation.on('tick', null);
+    this.node.call((drag() as any)
+      .on('start', null)
+      .on('drag', null)
+      .on('end', null));
   }
 
   // Convenience function to update everything (run after UI input)
@@ -127,7 +133,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.form.valueChanges
       .pipe(
         debounceTime(200),
-        takeUntilDestroyed(this.#destroyRef),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(value => this._handleFormChange(value));
   };
@@ -216,9 +222,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .data(this.graph.nodes)
 
       .enter().append('circle')
-      .style('fill', (d: any) => this.#color(d.group))
+      .style('fill', (d: any) => this.color(d.group))
       .style('cursor', 'pointer')
-      // @ts-ignore
       .call((drag() as any)
         .on('start', (e: any, d: any) => {
           this._dragStart(e, d);
@@ -242,7 +247,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   private _initializeOnWindowResize = () => {
     fromEvent(window, 'resize')
-      .pipe(takeUntilDestroyed(this.destroy))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this._handleOnWindowResize())
   };
 

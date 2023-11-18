@@ -3,4 +3,4 @@ import { from } from "rxjs";
 
 import { json } from "d3";
 
-export const GraphResolver: ResolveFn<any> = (route, state) => from(json("./assets/miserables.json"));
+export const GraphResolver: ResolveFn<any> = (_route, _state) => from(json("./assets/data/miserables.json"));
