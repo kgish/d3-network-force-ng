@@ -1,6 +1,6 @@
-# D3 Network Force NG
+# D3.js Network Force NG
 
-Demo Angular v17 application demonstrating D3 network force diagram.
+Demo Angular v17 application demonstrating D3.js network force directed graph.
 
 ![Screenshot](src/assets/images/screenshot.png)
 
@@ -14,11 +14,10 @@ In order to make this demo more Angular like, I have integrated the actions into
 
 ## References
 
-* [d3](https://d3js.org)
-* [d3 hierarchy](https://d3js.org/d3-hierarchy)
-* [force directed graph](https://observablehq.com/@d3/force-directed-graph/2)
-* [demo](https://gist.github.com/steveharoz/8c3e2524079a8c440df60c1ab72b5d03)
-* [miserables.json](https://gist.githubusercontent.com/steveharoz/8c3e2524079a8c440df60c1ab72b5d03/raw/7c039c6b78eea9c97ce763e5fddbfa47c99661f9/miserables.json)
-* [stackblitz example](https://stackblitz.com/edit/angular-13-template-jq8khd?file=src%2Fapp%2Fapp.component.ts)
+* [D3.js](https://d3js.org)
+* [Force directed graph](https://observablehq.com/@d3/force-directed-graph/2)
+* [Demo](https://gist.github.com/steveharoz/8c3e2524079a8c440df60c1ab72b5d03)
+* [Miserables.json](https://gist.githubusercontent.com/steveharoz/8c3e2524079a8c440df60c1ab72b5d03/raw/7c039c6b78eea9c97ce763e5fddbfa47c99661f9/miserables.json)
+* [Stackblitz example](https://stackblitz.com/edit/angular-13-template-jq8khd?file=src%2Fapp%2Fapp.component.ts)
 * [Angular](https://angular.dev)
 * [Material](https://material.angular.io)
