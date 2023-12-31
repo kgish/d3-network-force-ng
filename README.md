@@ -1,6 +1,7 @@
 # D3.js Network Force NG
 
-Demo Angular v17 application demonstrating D3.js network force directed graph.
+
+D3.js Force-Directed Network Graph Demo
 
 ![Screenshot](src/assets/images/screenshot.png)
 
