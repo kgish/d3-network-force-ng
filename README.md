@@ -1,6 +1,5 @@
 # D3.js Network Force NG
 
-
 D3.js Force-Directed Network Graph Demo
 
 ![Screenshot](src/assets/images/screenshot.png)
